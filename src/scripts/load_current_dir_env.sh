@@ -32,8 +32,9 @@ _load_current_dir_env() {
         case "$first_char" in
           [a-zA-Z])
             case "$line" in
-              alias\ *) echo "$line" ;;
-              *) echo "alias $line" ;;
+              *\'\'\'*) ;;  # 백슬래시가 식별되지 않는 "작은따옴표 + 작은따옴표 + 작은따옴표"가 포함된 경우는 무시
+              alias\ *) printf "%s\n" "$line" ;;
+              *)        printf "alias %s\n" "$line" ;;
             esac
             ;;
         esac
