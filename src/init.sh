@@ -27,18 +27,3 @@ _directory_changed_hook() {
   # 만약 도착한 경로에도 환경파일이 있다면 등록합니다.
   _load_current_dir_env
 }
-
-#source ~/.direnv/src/load_current_dir_env.sh
-#source ~/.direnv/src/unload_current_dir_env.sh
-#source ~/.direnv/src/directory_changed_hook.sh
-#
-#if [ ! -d ~/.direnv/tmp ]; then
-#  mkdir ~/.direnv/tmp
-#fi
-#
-#_load_current_dir_env
-#
-#cd() {
-#  builtin cd "$@" || return
-#  [ "$OLDPWD" = "$PWD" ] || _directory_changed_hook
-#}
