@@ -65,7 +65,7 @@ _load_current_dir_env() {
 
     # 현재 디렉토리의 환경설정을 tmp 에 업로드
     cp "./$ENV_FILE" "$CURRENT_ENV_FILE"
-    alias dl="cat $CURRENT_ENV_FILE"
+    alias dl="[ -f \"$CURRENT_ENV_FILE\" ] && cat \"$CURRENT_ENV_FILE\" || echo \"[direnv] No environment file is defined for this directory.\""
     loadable=false
     ENV_FILE=""
   fi
