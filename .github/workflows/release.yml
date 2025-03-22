@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'  # v1.0.0 같은 태그에 반응
 
+permissions:
+  contents: write  # 🔐 이거 꼭 추가해야 릴리즈 생성 가능
+
 jobs:
   release:
     runs-on: ubuntu-latest
