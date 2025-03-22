@@ -8,14 +8,13 @@ ORIGINAL_VARIABLE_FILE=~/.direnv/tmp/original_environment_variables
 _unload_current_dir_env() {
   if [ -e "$CURRENT_ENV_FILE" ]; then
     # alias 를 제거
-    IFS='\n'
-    for item in $(grep '^alias ' "$CURRENT_ENV_FILE" | sed 's/^alias //' | sed 's/=.*//'); do
-      unalias "$item"
+    grep '^alias ' "$CURRENT_ENV_FILE" | sed 's/^alias //' | while IFS='=' read name value; do
+      unalias "$name"
     done
 
     # 환경변수를 제거
-    for item in $(grep '^export ' "$CURRENT_ENV_FILE" | sed 's/^export //' | sed 's/=.*//'); do
-      unset "$item"
+    grep '^export ' "$CURRENT_ENV_FILE" | sed 's/^export //' | while IFS='=' read name value; do
+      unset "$name"
     done
 
     # 백업해둔 alias 를 적용 후 제거
