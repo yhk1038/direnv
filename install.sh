@@ -6,7 +6,7 @@
 # - shell rc 파일에 alias 추가
 # -----------------------------
 
-VERSION=$"(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/VERSION)"
+VERSION="$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/VERSION)"
 TAR_URL="https://github.com/yhk1038/direnv/releases/download/$VERSION/direnv-$VERSION.tar.gz"
 INSTALL_DIR="$HOME/.direnv"
 TMP_TAR_FILE="/tmp/direnv.tar.gz"
