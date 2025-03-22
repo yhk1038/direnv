@@ -6,40 +6,53 @@
 # - shell rc 파일에 alias 추가
 # -----------------------------
 
+
+# 언어 설정 (기본값: 영어)
+LANG_CODE=$(locale 2>/dev/null | grep -E '^LANG=' | cut -d= -f2 | cut -d_ -f1)
+LANG_CODE=${LANG_CODE:-en}
+LANG_FILE="./lang/ko.lang"
+curl -fsSL "https://raw.githubusercontent.com/yhk1038/direnv/main/src/lang/${LANG_CODE}.lang"
+
+# 메시지 불러오기
+[ -f "$LANG_FILE" ] && . "$LANG_FILE"
+
+# 출력 유틸리티 함수
+log() { printf "\033[1;32m[✔]\033[0m %s\n" "$1"; }
+error() { printf "\033[1;31m[✘]\033[0m %s\n" "$1" >&2; }
+step() { printf "\n\033[1;34m▶ %s\033[0m\n" "$1"; }
+
+# 설치 버전과 URL 설정
 VERSION="$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/VERSION)"
 TAR_URL="https://github.com/yhk1038/direnv/releases/download/$VERSION/direnv-$VERSION.tar.gz"
 INSTALL_DIR="$HOME/.direnv"
 TMP_TAR_FILE="/tmp/direnv.tar.gz"
 
-# 출력 유틸
-log() { printf "\033[1;32m[✔]\033[0m %s\n" "$1"; }
-error() { printf "\033[1;31m[✘]\033[0m %s\n" "$1" >&2; }
-step() { printf "\n\033[1;34m▶ %s\033[0m\n" "$1"; }
-
-step "1. 소스코드 다운로드 중... ($VERSION)"
+# 1단계: 다운로드
+step "$(printf "$MSG_STEP_DOWNLOAD" "$VERSION")"
 if command -v curl >/dev/null 2>&1; then
   curl -fsSL "$TAR_URL" -o "$TMP_TAR_FILE" || {
-    error "다운로드 실패 (curl)"; exit 1;
+    error "$MSG_ERR_CURL"; exit 1;
   }
 elif command -v wget >/dev/null 2>&1; then
   wget -q "$TAR_URL" -O "$TMP_TAR_FILE" || {
-    error "다운로드 실패 (wget)"; exit 1;
+    error "$MSG_ERR_WGET"; exit 1;
   }
 else
-  error "curl 또는 wget이 필요합니다. 설치 후 다시 시도해주세요."
-  exit 1
+  error "$MSG_ERR_TOOL_REQUIRED"; exit 1;
 fi
-log "다운로드 완료"
+log "$MSG_DONE_DOWNLOAD"
 
-step "2. 압축 해제 중..."
+# 2단계: 압축 해제
+step "$MSG_STEP_EXTRACT"
 mkdir -p "$INSTALL_DIR"
 tar -xzf "$TMP_TAR_FILE" -C "$INSTALL_DIR" --strip-components=1 || {
-  error "압축 해제 실패"; exit 1;
+  error "$MSG_ERR_EXTRACT"; exit 1;
 }
 rm -f "$TMP_TAR_FILE"
-log "설치 디렉토리: $INSTALL_DIR"
+log "$(printf "$MSG_DONE_INSTALL_DIR" "$INSTALL_DIR")"
 
-step "3. 사용자 shell 환경 감지 중..."
+# 3단계: 사용자 shell 설정 파일 감지
+step "$MSG_STEP_SHELL"
 SHELL_NAME=$(basename "$SHELL")
 RC_FILE=""
 
@@ -48,25 +61,21 @@ case "$SHELL_NAME" in
     RC_FILE="$HOME/.bashrc"
     [ ! -f "$RC_FILE" ] && RC_FILE="$HOME/.bash_profile"
     ;;
-  zsh)
-    RC_FILE="$HOME/.zshrc"
-    ;;
-  ksh)
-    RC_FILE="$HOME/.kshrc"
-    ;;
-  *)
-    RC_FILE="$HOME/.profile"
-    ;;
+  zsh) RC_FILE="$HOME/.zshrc" ;;
+  ksh) RC_FILE="$HOME/.kshrc" ;;
+  *)   RC_FILE="$HOME/.profile" ;;
 esac
-log "감지된 shell rc 파일: $RC_FILE"
+log "$(printf "$MSG_DONE_RCFILE" "$RC_FILE")"
 
-step "4. alias 추가 중..."
+# 4단계: alias 추가
+step "$MSG_STEP_ALIAS"
 if ! grep 'alias de=' "$RC_FILE" >/dev/null 2>&1; then
   printf '\n# Direnv alias\nalias de=". \$HOME/.direnv/src/init.sh"\n' >> "$RC_FILE"
-  log "alias 'de' 추가 완료"
+  log "$MSG_DONE_ALIAS_ADDED"
 else
-  log "이미 alias 'de'가 등록되어 있습니다."
+  log "$MSG_DONE_ALIAS_EXISTS"
 fi
 
-log "🎉 설치가 완료되었습니다! 새로운 터미널에서 'de'를 실행해보세요."
+# 완료 메시지
+log "$MSG_DONE_COMPLETE"
 exit 0

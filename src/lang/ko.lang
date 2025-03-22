@@ -1,0 +1,18 @@
+MSG_STEP_DOWNLOAD=1. 소스코드 다운로드 중... (%s)
+MSG_ERR_CURL=다운로드 실패 (curl)
+MSG_ERR_WGET=다운로드 실패 (wget)
+MSG_ERR_TOOL_REQUIRED=curl 또는 wget이 필요합니다. 설치 후 다시 시도해주세요.
+MSG_DONE_DOWNLOAD=다운로드 완료
+
+MSG_STEP_EXTRACT=2. 압축 해제 중...
+MSG_ERR_EXTRACT=압축 해제 실패
+MSG_DONE_INSTALL_DIR=설치 디렉토리: %s
+
+MSG_STEP_SHELL=3. 사용자 shell 환경 감지 중...
+MSG_DONE_RCFILE=감지된 shell rc 파일: %s
+
+MSG_STEP_ALIAS=4. alias 추가 중...
+MSG_DONE_ALIAS_ADDED=alias 'de' 추가 완료
+MSG_DONE_ALIAS_EXISTS=이미 alias 'de'가 등록되어 있습니다.
+
+MSG_DONE_COMPLETE=🎉 설치가 완료되었습니다! 새로운 터미널에서 'de'를 실행해보세요.

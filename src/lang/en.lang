@@ -1,0 +1,18 @@
+MSG_STEP_DOWNLOAD=1. Downloading source code... (%s)
+MSG_ERR_CURL=Download failed (curl)
+MSG_ERR_WGET=Download failed (wget)
+MSG_ERR_TOOL_REQUIRED=curl or wget is required. Please install it and try again.
+MSG_DONE_DOWNLOAD=Download complete
+
+MSG_STEP_EXTRACT=2. Extracting archive...
+MSG_ERR_EXTRACT=Extraction failed
+MSG_DONE_INSTALL_DIR=Installation directory: %s
+
+MSG_STEP_SHELL=3. Detecting user shell...
+MSG_DONE_RCFILE=Detected shell rc file: %s
+
+MSG_STEP_ALIAS=4. Adding alias...
+MSG_DONE_ALIAS_ADDED=Alias 'de' has been added
+MSG_DONE_ALIAS_EXISTS=Alias 'de' is already registered.
+
+MSG_DONE_COMPLETE=🎉 Installation complete! Try running 'de' in a new terminal session.
