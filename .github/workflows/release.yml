@@ -18,15 +18,11 @@ jobs:
           VERSION=${GITHUB_REF##*/}
           PROJECT_NAME="direnv"
           
-          mkdir -p artifacts
-          tar -czf artifacts/${PROJECT_NAME}-${VERSION}.tar.gz ./src
-          zip -r artifacts/${PROJECT_NAME}-${VERSION}.zip ./src
+          mkdir -p dist
+          tar -czf dist/${PROJECT_NAME}-${VERSION}.tar.gz ./src
+          zip -r dist/${PROJECT_NAME}-${VERSION}.zip ./src
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      - name: 📂 Copy built binary (optional)
-        if: exists('dist/direnv')
-        run: cp dist/direnv artifacts/
 
       - name: 📝 Read release notes
         id: notes
@@ -43,9 +39,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            artifacts/*.tar.gz
-            artifacts/*.zip
-            artifacts/direnv
+            dist/*.tar.gz
+            dist/*.zip
+            dist/direnv
           body: ${{ steps.notes.outputs.RELEASE_NOTES }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -16,7 +16,7 @@ if [ -z "$VERSION" ]; then
 fi
 
 echo "📦 압축 파일 생성 중: $ARCHIVE_NAME"
-tar -czf "$ARCHIVE_NAME" ./src
+tar -czf ./dist/"$ARCHIVE_NAME" ./src
 
 echo "🔖 Git 태그 생성 및 푸시"
 git tag "$VERSION"
