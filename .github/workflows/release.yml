@@ -1,0 +1,51 @@
+name: Release on Tag
+
+on:
+  push:
+    tags:
+      - 'v*'  # v1.0.0 같은 태그에 반응
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔄 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 📦 Create tar.gz and zip archives
+        run: |
+          VERSION=${GITHUB_REF##*/}
+          PROJECT_NAME="direnv"
+          
+          mkdir -p artifacts
+          tar -czf artifacts/${PROJECT_NAME}-${VERSION}.tar.gz ./src
+          zip -r artifacts/${PROJECT_NAME}-${VERSION}.zip ./src
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: 📂 Copy built binary (optional)
+        if: exists('dist/direnv')
+        run: cp dist/direnv artifacts/
+
+      - name: 📝 Read release notes
+        id: notes
+        run: |
+          if [ -f RELEASE.md ]; then
+            echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+            cat RELEASE.md >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "RELEASE_NOTES=Auto-generated release for $VERSION" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🚀 Create GitHub Release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/*.tar.gz
+            artifacts/*.zip
+            artifacts/direnv
+          body: ${{ steps.notes.outputs.RELEASE_NOTES }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
