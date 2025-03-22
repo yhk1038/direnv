@@ -62,7 +62,7 @@ log "감지된 shell rc 파일: $RC_FILE"
 
 step "4. alias 추가 중..."
 if ! grep 'alias de=' "$RC_FILE" >/dev/null 2>&1; then
-  printf '\n# Direnv alias\nalias de=". \$HOME/.direnv/init.sh"\n' >> "$RC_FILE"
+  printf '\n# Direnv alias\nalias de=". \$HOME/.direnv/src/init.sh"\n' >> "$RC_FILE"
   log "alias 'de' 추가 완료"
 else
   log "이미 alias 'de'가 등록되어 있습니다."
