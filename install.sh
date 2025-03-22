@@ -6,7 +6,8 @@
 # - shell rc 파일에 alias 추가
 # -----------------------------
 
-TAR_URL="https://example.com/direnv.tar.gz" # <-- 실제 배포용 URL로 교체 필요
+VERSION=$"(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/VERSION)"
+TAR_URL="https://github.com/yhk1038/direnv/releases/download/$VERSION/direnv-$VERSION.tar.gz"
 INSTALL_DIR="$HOME/.direnv"
 TMP_TAR_FILE="/tmp/direnv.tar.gz"
 
@@ -15,7 +16,7 @@ log() { printf "\033[1;32m[✔]\033[0m %s\n" "$1"; }
 error() { printf "\033[1;31m[✘]\033[0m %s\n" "$1" >&2; }
 step() { printf "\n\033[1;34m▶ %s\033[0m\n" "$1"; }
 
-step "1. 소스코드 다운로드 중..."
+step "1. 소스코드 다운로드 중... ($VERSION)"
 if command -v curl >/dev/null 2>&1; then
   curl -fsSL "$TAR_URL" -o "$TMP_TAR_FILE" || {
     error "다운로드 실패 (curl)"; exit 1;

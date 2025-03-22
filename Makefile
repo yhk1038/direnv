@@ -1,2 +1,2 @@
 release:
-	git tag $(VERSION) && git push origin $(VERSION)
+	./release.sh $(VERSION)
