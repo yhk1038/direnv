@@ -8,11 +8,11 @@ set -e
 
 VERSION="$1"
 echo "🔖 Git 태그 생성 및 푸시"
-echo "$VERSION" > ./VERSION
+printf "%s" "$VERSION" > ./VERSION
 git add .
 git commit -m "Update version: $VERSION"
 git tag "$VERSION"
-git push origin "$VERSION"
+git push --all
 #PROJECT_NAME="direnv"
 #ARCHIVE_NAME="${PROJECT_NAME}-${VERSION}.tar.gz"
 #
