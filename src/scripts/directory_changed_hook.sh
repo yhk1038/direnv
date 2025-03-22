@@ -1,4 +1,6 @@
-function _directory_changed_hook() {
+#!/bin/sh
+
+_directory_changed_hook() {
   # 기존에 로딩되어있는 환경파일이 있다면 등록해제 합니다.
   _unload_current_dir_env
 

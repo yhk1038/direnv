@@ -1,8 +1,8 @@
 #!/bin/sh
 
-. ~/.direnv/src/load_current_dir_env.sh
-. ~/.direnv/src/unload_current_dir_env.sh
-. ~/.direnv/src/directory_changed_hook.sh
+. ~/.direnv/scripts/load_current_dir_env.sh
+. ~/.direnv/scripts/unload_current_dir_env.sh
+. ~/.direnv/scripts/directory_changed_hook.sh
 
 # tmp 디렉토리가 없다면 생성합니다.
 if [ ! -d ~/.direnv/tmp ]; then
