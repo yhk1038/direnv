@@ -41,7 +41,6 @@ jobs:
           files: |
             dist/*.tar.gz
             dist/*.zip
-            dist/direnv
           body: ${{ steps.notes.outputs.RELEASE_NOTES }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
