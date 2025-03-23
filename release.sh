@@ -14,6 +14,7 @@ git commit -m "Update version: $VERSION"
 git tag "$VERSION"
 git push
 git push origin "$VERSION"
+
 #PROJECT_NAME="direnv"
 #ARCHIVE_NAME="${PROJECT_NAME}-${VERSION}.tar.gz"
 #
