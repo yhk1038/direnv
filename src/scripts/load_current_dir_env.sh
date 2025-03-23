@@ -8,6 +8,11 @@ ORIGINAL_VARIABLE_FILE=~/.direnv/tmp/original_environment_variables
 _load_current_dir_env() {
   loadable=false
 
+  # 현재 디렉토리가 홈 디렉토리인 경우 로딩 중단
+  if [ "$PWD" = "$HOME" ]; then
+    return 0
+  fi
+
   # .envrc 또는 .profile 이 존재하는지 확인
   if [ -e ./.envrc ]; then
     loadable=true
