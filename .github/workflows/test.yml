@@ -1,0 +1,22 @@
+name: Run Direnv Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run make test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set CI=true
+        run: echo "CI=true" >> $GITHUB_ENV
+
+      - name: Run tests
+        run: make test
