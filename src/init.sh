@@ -10,6 +10,9 @@ if [ ! -d ~/.direnv/tmp ]; then
   mkdir ~/.direnv/tmp
 fi
 
+# tmp 디렉토리 내부 파일을 모두 삭제하는 alias 추가
+alias df='rm -f ~/.direnv/tmp/*'
+
 # 디렉토리 진입 시 환경설정 적용
 _load_current_dir_env
 
