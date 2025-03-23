@@ -13,6 +13,12 @@ _load_current_dir_env() {
     return 0
   fi
 
+  # 홈 디렉토리 하위가 아니면 로딩 중단
+  case "$PWD" in
+    "$HOME"/*) ;;  # 통과
+    *) return 0 ;; # 홈 밖 → 중단
+  esac
+
   # .envrc 또는 .profile 이 존재하는지 확인
   if [ -e ./.envrc ]; then
     loadable=true
