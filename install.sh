@@ -7,7 +7,7 @@
 # -----------------------------
 
 # 언어 코드 감지
-LANG_CODE=$(locale 2>/dev/null | grep -E '^LANG=' | cut -d= -f2 | cut -d_ -f1)
+LANG_CODE=$(locale 2>/dev/null | grep -E '^LANG=' | cut -d= -f2 | cut -d_ -f1 | sed 's/\"//g')
 LANG_CODE=${LANG_CODE:-en}
 
 # 언어 URL
