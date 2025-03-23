@@ -12,7 +12,7 @@ MSG_STEP_SHELL='3. Detecting user shell...'
 MSG_DONE_RCFILE='Detected shell rc file: %s'
 
 MSG_STEP_ALIAS='4. Adding alias...'
-MSG_DONE_ALIAS_ADDED='Alias '\''de'\'' has been added'
-MSG_DONE_ALIAS_EXISTS='Alias '\''de'\'' is already registered.'
+MSG_DONE_ALIAS_ADDED='Alias '\''\'\'''\''de'\''\'\'''\'' has been added'
+MSG_DONE_ALIAS_EXISTS='Alias '\''\'\'''\''de'\''\'\'''\'' is already registered.'
 
-MSG_DONE_COMPLETE='🎉 Installation complete! Try running '\''de'\'' in a new terminal session.'
+MSG_DONE_COMPLETE='🎉 Installation complete! Try running '\''\'\'''\''de'\''\'\'''\'' in a new terminal session.'
