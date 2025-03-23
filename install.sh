@@ -6,15 +6,20 @@
 # - shell rc 파일에 alias 추가
 # -----------------------------
 
-
-# 언어 설정 (기본값: 영어)
+# 언어 코드 감지
 LANG_CODE=$(locale 2>/dev/null | grep -E '^LANG=' | cut -d= -f2 | cut -d_ -f1)
 LANG_CODE=${LANG_CODE:-en}
-LANG_FILE="./lang/ko.lang"
-curl -fsSL "https://raw.githubusercontent.com/yhk1038/direnv/main/src/lang/${LANG_CODE}.lang"
 
-# 메시지 불러오기
-[ -f "$LANG_FILE" ] && . "$LANG_FILE"
+# 언어 URL
+LANG_URL="https://raw.githubusercontent.com/yhk1038/direnv/main/src/lang/${LANG_CODE}.lang"
+
+# curl로 읽어서 eval로 실행
+LANG_CONTENT=$(curl -fsSL "$LANG_URL")
+if [ -n "$LANG_CONTENT" ]; then
+  eval "$LANG_CONTENT"
+else
+  echo "[direnv] ⚠️  Failed to load language file: $LANG_CODE"
+fi
 
 # 출력 유틸리티 함수
 log() { printf "\033[1;32m[✔]\033[0m %s\n" "$1"; }
