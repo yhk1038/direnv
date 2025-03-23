@@ -10,6 +10,12 @@
 LANG_CODE=$(locale 2>/dev/null | grep -E '^LANG=' | cut -d= -f2 | cut -d_ -f1 | sed 's/\"//g')
 LANG_CODE=${LANG_CODE:-en}
 
+# 지원 언어 확인 (지원되지 않으면 en 으로 fallback)
+case "$LANG_CODE" in
+  en|ko|ja) ;;  # 지원하는 언어 목록
+  *) LANG_CODE="en" ;;
+esac
+
 # 언어 URL
 LANG_URL="https://raw.githubusercontent.com/yhk1038/direnv/main/src/lang/${LANG_CODE}.lang"
 
