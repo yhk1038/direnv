@@ -108,6 +108,15 @@ alias de=". $HOME/.direnv/src/init.sh"
 
 ## 📋 Release Notes
 
+### v0.7.1 (2025-10-23)
+
+**Bug Fixes**:
+- Fixed critical directory switching bug where environment failed to reload when returning to a previous directory
+  - Problem: PWD and OLDPWD were backed up and restored, causing directory state corruption
+  - Impact: Environment variables were not reloaded correctly in A → B → A navigation patterns
+  - Solution: Excluded PWD and OLDPWD from environment variable backup (shell internal state)
+  - Tests: All directory changed hook tests now pass (TEST 5 & TEST 6 fixed)
+
 ### v0.7.0 (2025-10-23)
 
 **New Features**:
