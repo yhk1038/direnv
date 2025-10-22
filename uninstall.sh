@@ -16,15 +16,34 @@ case "$LANG_CODE" in
   *) LANG_CODE="en" ;;
 esac
 
-# 언어 URL
-LANG_URL="https://raw.githubusercontent.com/yhk1038/direnv/main/src/lang/${LANG_CODE}.lang"
+# 언어 파일 로드 (로컬 파일 시스템에서)
+# uninstall.sh는 ~/.direnv/uninstall.sh 위치에서 실행됨
+INSTALL_DIR="$HOME/.direnv"
+LANG_FILE="$INSTALL_DIR/src/lang/${LANG_CODE}.lang"
 
-# curl로 읽어서 eval로 실행
-LANG_CONTENT=$(curl -fsSL "$LANG_URL")
-if [ -n "$LANG_CONTENT" ]; then
-  eval "$LANG_CONTENT"
+if [ -f "$LANG_FILE" ]; then
+  . "$LANG_FILE"
+elif [ -f "$INSTALL_DIR/src/lang/en.lang" ]; then
+  . "$INSTALL_DIR/src/lang/en.lang"
 else
-  echo "[direnv] ⚠️  Failed to load language file: $LANG_CODE"
+  # Fallback: 언어 파일이 없으면 하드코딩된 기본 메시지 사용
+  MSG_UNINSTALL_CONFIRM="Confirm Uninstallation"
+  MSG_UNINSTALL_PROMPT="Are you sure you want to uninstall direnv? (y/n)"
+  MSG_UNINSTALL_PROCEEDING="Proceeding with uninstallation..."
+  MSG_UNINSTALL_CANCELLED="Uninstallation cancelled"
+  MSG_UNINSTALL_STEP_DETECT_SHELL="Detecting shell configuration..."
+  MSG_UNINSTALL_DETECTED_RC="Detected: %s"
+  MSG_UNINSTALL_RC_NOT_FOUND="RC file not found: %s"
+  MSG_UNINSTALL_STEP_CLEAN_RC="Cleaning shell configuration..."
+  MSG_UNINSTALL_BACKUP_CREATED="Backup created: %s"
+  MSG_UNINSTALL_BACKUP_FAILED="Failed to create backup"
+  MSG_UNINSTALL_RC_CLEANED="Cleaned: %s"
+  MSG_UNINSTALL_RC_CLEAN_FAILED="Failed to clean RC file"
+  MSG_UNINSTALL_STEP_REMOVE_DIR="Removing direnv directory..."
+  MSG_UNINSTALL_DIR_REMOVED="Removed: %s"
+  MSG_UNINSTALL_DIR_REMOVE_FAILED="Failed to remove: %s"
+  MSG_UNINSTALL_DIR_NOT_FOUND="Directory not found: %s"
+  MSG_UNINSTALL_COMPLETE="Uninstallation complete!"
 fi
 
 # 출력 유틸리티 함수
