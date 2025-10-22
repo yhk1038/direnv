@@ -571,9 +571,236 @@ git push origin --delete feat/performance-optimization
 [ ] 병합 완료
 [ ] 로컬 브랜치 삭제 완료
 [ ] 사용자에게 병합 완료 안내
+[ ] **버전 범프 추정 및 실행**
 [ ] 원격 브랜치 삭제 여부 사용자에게 확인
 [ ] (승인 시) 원격 브랜치 삭제 완료
 [ ] 삭제 완료 안내
+```
+
+---
+
+## 버전 범프 규칙
+
+### 기능 브랜치 병합 완료 시 자동 버전 범프
+
+**핵심 원칙**: 모든 기능 브랜치가 main에 병합될 때, 에이전트는 **자동으로 적절한 버전 범프를 추정하고 실행**합니다.
+
+### 버전 범프 추정 기준
+
+에이전트는 다음 기준으로 버전 타입을 추정합니다:
+
+#### 1. **Major (v0.1.1 -> v1.0.0)** - 하위 호환성이 깨지는 변경
+- 기존 API/인터페이스 제거
+- 기존 동작 방식의 근본적 변경
+- 설정 파일 형식 변경 (migration 필요)
+- 필수 의존성 major 버전 업그레이드
+- 스크립트 사용법이 완전히 바뀌는 경우
+
+**키워드**: `breaking`, `remove`, `deprecated API removal`, `incompatible`
+
+**예시**:
+```
+feat: remove support for old .envrc format
+feat: change environment variable naming convention
+feat!: redesign alias system (breaking change)
+```
+
+#### 2. **Minor (v0.1.1 -> v0.2.0)** - 새로운 기능 추가 (하위 호환)
+- 새로운 기능 추가
+- 새로운 명령어/옵션 추가
+- 새로운 언어 지원 추가
+- 성능 개선 (visible improvement)
+- 새로운 설정 옵션 추가 (기존 동작 유지)
+
+**키워드**: `feat`, `add`, `implement`, `support`, `enhance`, `improve`
+
+**예시**:
+```
+feat: add Japanese language support
+feat: implement caching mechanism
+feat: add interactive configuration wizard
+perf: improve loading performance by 50%
+```
+
+#### 3. **Patch (v0.1.1 -> v0.1.2)** - 버그 수정 및 마이너 개선
+- 버그 수정
+- 문서 개선
+- 테스트 추가
+- 코드 리팩토링 (동작 변경 없음)
+- 오타 수정
+- 로깅 개선
+- 내부 구조 개선
+
+**키워드**: `fix`, `docs`, `chore`, `refactor`, `test`, `style`
+
+**예시**:
+```
+fix: prevent duplicate alias backup
+docs: update README with installation guide
+chore: update dependencies
+refactor: simplify load script logic
+```
+
+### 버전 범프 실행 프로세스
+
+#### 1단계: 커밋 메시지 분석
+
+```bash
+# 병합된 브랜치의 모든 커밋 메시지 수집
+git log main..feat/branch-name --oneline
+
+# 커밋 메시지에서 타입 추출
+# - feat, feat! -> minor or major
+# - fix, docs, chore, refactor -> patch
+# - BREAKING CHANGE in body -> major
+```
+
+#### 2단계: 버전 타입 추정
+
+에이전트는 다음 로직으로 버전 타입을 추정합니다:
+
+```
+1. BREAKING CHANGE 또는 feat! 있음 → **major**
+2. feat 있음 → **minor**
+3. fix, docs, chore만 있음 → **patch**
+4. 불명확함 → 사용자에게 확인
+```
+
+#### 3단계: 사용자에게 버전 범프 제안
+
+```
+"이 기능 브랜치가 main에 병합되었습니다.
+
+커밋 분석 결과:
+- feat: 2개 (새 기능 추가)
+- fix: 1개 (버그 수정)
+- docs: 3개 (문서 업데이트)
+
+추천 버전 범프: **minor** (v0.1.1 -> v0.2.0)
+
+이유:
+- 새로운 기능이 추가되었습니다 (일본어 언어 지원)
+- 하위 호환성이 유지됩니다
+- 버그 수정도 포함되어 있습니다
+
+버전 범프를 실행하시겠습니까?
+- 'yes' 또는 'minor': 추천대로 minor 버전 범프
+- 'patch': patch 버전만 증가 (v0.1.1 -> v0.1.2)
+- 'major': major 버전 증가 (v0.1.1 -> v1.0.0)
+- 'skip': 버전 범프 건너뛰기
+"
+```
+
+#### 4단계: 버전 범프 실행
+
+사용자 응답에 따라:
+
+```bash
+# minor 선택 시
+make release-minor
+
+# patch 선택 시
+make release-patch
+
+# major 선택 시
+make release-major
+
+# skip 선택 시
+# 버전 범프 건너뛰고 계속 진행
+```
+
+### 버전 범프 예외 사항
+
+다음 경우에는 버전 범프를 **제안하지 않습니다**:
+
+- ❌ 서브태스크 브랜치가 부모 브랜치로 병합되는 경우 (main이 아님)
+- ❌ 문서만 변경된 경우 (`docs:` 커밋만 있음)
+- ❌ 테스트나 CI 설정만 변경된 경우
+- ❌ `.claude/` 디렉토리만 변경된 경우 (워크플로우 문서 등)
+
+이런 경우 에이전트는 다음과 같이 안내합니다:
+
+```
+"이 브랜치는 문서/내부 설정만 변경했으므로 버전 범프를 건너뜁니다."
+```
+
+### 버전 범프 판단이 어려운 경우
+
+에이전트가 버전 타입을 확신할 수 없는 경우:
+
+```
+"이 브랜치의 변경사항을 분석했지만, 적절한 버전 타입을 확신할 수 없습니다.
+
+커밋 내역:
+- refactor: 전체 로딩 시스템 재구현
+- perf: 성능 50% 개선
+- fix: 여러 버그 수정
+
+이 변경사항은 어떤 버전 범프가 적절할까요?
+- 'minor': 새로운 기능 추가 또는 visible improvement (v0.1.1 -> v0.2.0)
+- 'patch': 버그 수정 또는 내부 개선 (v0.1.1 -> v0.1.2)
+- 'major': 하위 호환성 깨짐 (v0.1.1 -> v1.0.0)
+- 'skip': 버전 범프 건너뛰기
+"
+```
+
+### 커밋 메시지 분석 예시
+
+#### 예시 1: Minor 버전 범프
+
+```
+커밋 내역:
+- feat: add Japanese language support
+- feat: add language detection in install script
+- docs: update README with Japanese instructions
+- test: add tests for Japanese language
+
+추정: **minor** (새 기능 추가, 하위 호환)
+```
+
+#### 예시 2: Patch 버전 범프
+
+```
+커밋 내역:
+- fix: prevent duplicate alias entries
+- fix: handle empty environment variables correctly
+- test: add edge case tests
+- docs: update troubleshooting guide
+
+추정: **patch** (버그 수정만 포함)
+```
+
+#### 예시 3: Major 버전 범프
+
+```
+커밋 내역:
+- feat!: redesign configuration file format
+- docs: add migration guide from v0.x to v1.x
+- feat: remove deprecated --legacy flag
+
+추정: **major** (breaking changes 포함)
+```
+
+#### 예시 4: 버전 범프 불필요
+
+```
+커밋 내역:
+- docs: fix typo in README
+- docs: update installation instructions
+- chore: update .gitignore
+
+추정: **skip** (문서/설정만 변경)
+```
+
+### 버전 범프 체크리스트
+
+```markdown
+[ ] main 브랜치로 기능 브랜치 병합 완료
+[ ] 병합된 브랜치의 커밋 메시지 분석 완료
+[ ] 버전 타입 추정 완료 (major/minor/patch/skip)
+[ ] 사용자에게 버전 범프 제안 및 설명
+[ ] 사용자 선택에 따라 적절한 make 명령 실행
+[ ] 버전 범프 완료 또는 스킵 안내
 ```
 
 ---
@@ -632,6 +859,44 @@ PR URL: [링크]"
 git push origin --delete [브랜치명]
 ```
 
+### Q6: 기능 브랜치 병합 시 항상 버전 범프를 해야 하나요?
+
+**A**: 아니요, 다음 경우에는 **버전 범프를 건너뜁니다**:
+
+- 문서만 변경 (`docs:` 커밋만)
+- 워크플로우 설정만 변경 (`.claude/` 디렉토리)
+- 테스트/CI 설정만 변경
+- 서브태스크 브랜치가 부모 브랜치로 병합 (main이 아님)
+
+에이전트가 자동으로 판단하지만, 불확실한 경우 사용자에게 물어봅니다.
+
+### Q7: 버전 범프 추정이 잘못되면 어떻게 하나요?
+
+**A**: 에이전트가 제안한 버전 타입을 사용자가 바꿀 수 있습니다:
+
+```
+에이전트: "추천 버전 범프: minor"
+사용자: "patch로 해줘"
+에이전트: "알겠습니다. patch 버전 범프를 실행합니다."
+```
+
+사용자의 선택이 최종 결정입니다.
+
+### Q8: 여러 기능을 한 번에 병합했을 때 버전은?
+
+**A**: 에이전트가 **가장 높은 우선순위**의 버전 타입을 제안합니다:
+
+```
+커밋 내역:
+- feat: 새 기능 A (minor)
+- feat!: Breaking change B (major)
+- fix: 버그 수정 (patch)
+
+→ 추천: **major** (가장 높은 영향도)
+```
+
+우선순위: `major` > `minor` > `patch`
+
 ---
 
 ## 관련 문서
@@ -645,7 +910,9 @@ git push origin --delete [브랜치명]
 
 ## 변경 이력
 
-- **2025-10-22**: direnv 프로젝트에 맞게 조정 및 적용
+- **2025-10-22**:
+  - direnv 프로젝트에 맞게 조정 및 적용
+  - 버전 범프 규칙 추가 (기능 브랜치 병합 시 자동 버전 추정 및 실행)
 - **2025-10-20**: onoffhub-frontend에서 초안 작성
 
 ---
