@@ -98,4 +98,8 @@ fi
 
 # 완료 메시지
 log "$MSG_DONE_COMPLETE"
+printf "\n%s\n\n" "$MSG_OR_RUN_NOW"
+printf "      source %s\n" "$RC_FILE"
+echo ""
+echo ""
 exit 0

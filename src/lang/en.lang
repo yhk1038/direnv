@@ -16,6 +16,7 @@ MSG_DONE_INIT_ADDED='Auto-initialization has been configured'
 MSG_DONE_INIT_EXISTS='Auto-initialization is already configured.'
 
 MSG_DONE_COMPLETE='🎉 Installation complete! Direnv will be automatically activated in new terminal sessions.'
+MSG_OR_RUN_NOW='Or run this to activate now:'
 
 # Uninstall messages
 MSG_UNINSTALL_CONFIRM='⚠️  Are you sure you want to uninstall direnv?'

@@ -16,6 +16,7 @@ MSG_DONE_INIT_ADDED='자동 초기화 설정 완료'
 MSG_DONE_INIT_EXISTS='이미 자동 초기화가 설정되어 있습니다.'
 
 MSG_DONE_COMPLETE='🎉 설치가 완료되었습니다! 새로운 터미널에서 direnv가 자동으로 활성화됩니다.'
+MSG_OR_RUN_NOW='또는 이것을 실행하세요:'
 
 # Uninstall messages
 MSG_UNINSTALL_CONFIRM='⚠️  정말 direnv를 제거하시겠습니까?'
