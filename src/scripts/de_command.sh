@@ -29,6 +29,14 @@ de() {
       # Uninstall direnv
       _de_uninstall
       ;;
+    init)
+      # Initialize environment file in current directory
+      if [ -n "$2" ]; then
+        _de_init "$2"
+      else
+        _de_init ".envrc"
+      fi
+      ;;
     --help|-h|help)
       # Show help message
       _de_show_help
@@ -202,6 +210,8 @@ _de_show_help() {
   printf "%s\n\n" "$MSG_DE_HELP_USAGE"
   printf "%s\n" "$MSG_DE_HELP_COMMANDS"
   printf "%s\n" "$MSG_DE_HELP_CMD_NONE"
+  printf "%s\n" "$MSG_DE_HELP_CMD_INIT"
+  printf "%s\n" "$MSG_DE_HELP_CMD_INIT_FILE"
   printf "%s\n" "$MSG_DE_HELP_CMD_UPDATE"
   printf "%s\n" "$MSG_DE_HELP_CMD_UPDATE_VER"
   printf "%s\n" "$MSG_DE_HELP_CMD_VERSIONS"
@@ -211,4 +221,83 @@ _de_show_help() {
   printf "\n%s\n" "$MSG_DE_HELP_OTHER_COMMANDS"
   printf "%s\n" "$MSG_DE_HELP_CMD_DL"
   printf "%s\n" "$MSG_DE_HELP_CMD_DF"
+}
+
+# Initialize environment file in current directory
+_de_init() {
+  ENV_FILE_NAME="$1"
+
+  # Define allowed environment files
+  ALLOWED_FILES=".envrc .profile"
+
+  # Check if the provided file is in the allowed list
+  FILE_ALLOWED=false
+  for allowed in $ALLOWED_FILES; do
+    if [ "$ENV_FILE_NAME" = "$allowed" ]; then
+      FILE_ALLOWED=true
+      break
+    fi
+  done
+
+  if [ "$FILE_ALLOWED" = "false" ]; then
+    printf "$MSG_DE_INIT_INVALID_FILE\n" "$ENV_FILE_NAME"
+    printf "$MSG_DE_INIT_ALLOWED_FILES\n"
+    for allowed in $ALLOWED_FILES; do
+      printf "  - %s\n" "$allowed"
+    done
+    return 1
+  fi
+
+  # Check if file already exists
+  if [ -e "./$ENV_FILE_NAME" ]; then
+    printf "$MSG_DE_INIT_FILE_EXISTS\n" "$ENV_FILE_NAME"
+    return 1
+  fi
+
+  # Create the environment file with a header comment
+  cat > "./$ENV_FILE_NAME" <<'EOF'
+# Direnv environment file
+# This file will be automatically loaded when you enter this directory
+# and unloaded when you leave it.
+#
+# You can define:
+# - Environment variables: export MY_VAR="value"
+# - Aliases: alias ll="ls -la"
+# - Functions: my_function() { echo "Hello"; }
+
+EOF
+
+  if [ ! -e "./$ENV_FILE_NAME" ]; then
+    printf "$MSG_DE_INIT_CREATE_FAILED\n" "$ENV_FILE_NAME"
+    return 1
+  fi
+
+  printf "$MSG_DE_INIT_CREATED\n" "$ENV_FILE_NAME"
+
+  # Check if we're in a git repository
+  if git rev-parse --git-dir >/dev/null 2>&1; then
+    GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+
+    if [ -n "$GIT_ROOT" ]; then
+      GITIGNORE_FILE="$GIT_ROOT/.gitignore"
+
+      # Check if the env file is already in .gitignore
+      if [ -f "$GITIGNORE_FILE" ]; then
+        if grep -qx "$ENV_FILE_NAME" "$GITIGNORE_FILE" 2>/dev/null; then
+          # Already in .gitignore, do nothing
+          :
+        else
+          # Add to .gitignore with a comment
+          printf "\n# Direnv environment file (auto-added by de init)\n%s\n" "$ENV_FILE_NAME" >> "$GITIGNORE_FILE"
+          printf "$MSG_DE_INIT_ADDED_TO_GITIGNORE\n" "$ENV_FILE_NAME"
+        fi
+      else
+        # Create .gitignore with the env file
+        printf "# Direnv environment file (auto-added by de init)\n%s\n" "$ENV_FILE_NAME" > "$GITIGNORE_FILE"
+        printf "$MSG_DE_INIT_ADDED_TO_GITIGNORE\n" "$ENV_FILE_NAME"
+      fi
+    fi
+  fi
+
+  return 0
 }
