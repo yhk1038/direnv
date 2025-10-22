@@ -60,6 +60,10 @@ tar -xzf "$TMP_TAR_FILE" -C "$INSTALL_DIR" --strip-components=1 || {
   error "$MSG_ERR_EXTRACT"; exit 1;
 }
 rm -f "$TMP_TAR_FILE"
+
+# VERSION 파일 생성
+echo "$VERSION" > "$INSTALL_DIR/VERSION"
+
 log "$(printf "$MSG_DONE_INSTALL_DIR" "$INSTALL_DIR")"
 
 # 2-1단계: uninstall.sh 다운로드
