@@ -4,6 +4,7 @@
 . ~/.direnv/src/scripts/load_current_dir_env.sh
 . ~/.direnv/src/scripts/unload_current_dir_env.sh
 . ~/.direnv/src/scripts/directory_changed_hook.sh
+. ~/.direnv/src/scripts/de_command.sh
 
 # tmp 디렉토리가 없다면 생성합니다.
 if [ ! -d ~/.direnv/tmp ]; then

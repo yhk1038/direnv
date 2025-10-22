@@ -87,10 +87,10 @@ case "$SHELL_NAME" in
 esac
 log "$(printf "$MSG_DONE_RCFILE" "$RC_FILE")"
 
-# 4단계: 자동 초기화 및 alias 추가
+# 4단계: 자동 초기화 설정
 step "$MSG_STEP_INIT"
 if ! grep '.direnv/src/init.sh' "$RC_FILE" >/dev/null 2>&1; then
-  printf '\n# Direnv auto-initialization\n[ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh\nalias de=". \$HOME/.direnv/src/init.sh"\n' >> "$RC_FILE"
+  printf '\n# Direnv auto-initialization\n[ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh\n' >> "$RC_FILE"
   log "$MSG_DONE_INIT_ADDED"
 else
   log "$MSG_DONE_INIT_EXISTS"
