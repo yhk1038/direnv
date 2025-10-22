@@ -433,6 +433,43 @@ df  # alias df='rm -f ~/.direnv/tmp/*'
 
 ---
 
+## 제거 (Uninstall)
+
+direnv를 제거하려면 설치된 uninstall.sh 스크립트를 실행하세요:
+
+```bash
+sh ~/.direnv/uninstall.sh
+```
+
+또는 원격에서 직접 실행:
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/uninstall.sh)"
+```
+
+**uninstall.sh가 수행하는 작업:**
+1. 사용자 확인 프롬프트 표시
+2. Shell 설정 파일(.bashrc, .zshrc 등) 감지
+3. 설정 파일 백업 생성 (예: `.bashrc.backup.20251022_205030`)
+4. direnv 초기화 라인 제거:
+   - `[ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh`
+   - `alias de=". $HOME/.direnv/src/init.sh"`
+5. `~/.direnv` 디렉토리 삭제
+6. 다국어 지원 (영어, 한국어)
+
+**수동 제거 방법** (스크립트를 사용하지 않는 경우):
+```bash
+# 1. 디렉토리 삭제
+rm -rf ~/.direnv
+
+# 2. Shell 설정 파일에서 direnv 라인 수동 삭제
+# ~/.bashrc, ~/.zshrc 등을 편집하여 다음 라인들 제거:
+[ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
+alias de=". $HOME/.direnv/src/init.sh"
+```
+
+---
+
 ## 관련 문서
 
 - [README.md](README.md) - 프로젝트 소개 및 설치 가이드
