@@ -12,12 +12,12 @@ set -e
 BUMP_TYPE="$1"
 
 # 현재 버전 읽기
-if [ ! -f "./VERSION" ]; then
+if [ ! -f "./src/VERSION" ]; then
   echo "❌ VERSION 파일을 찾을 수 없습니다."
   exit 1
 fi
 
-CURRENT_VERSION=$(cat ./VERSION)
+CURRENT_VERSION=$(cat ./src/VERSION)
 echo "📌 현재 버전: $CURRENT_VERSION"
 
 # v 접두사 제거
@@ -65,7 +65,7 @@ if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
 fi
 
 echo "🔖 Git 태그 생성 및 푸시"
-printf "%s" "$NEW_VERSION" > ./VERSION
+printf "%s" "$NEW_VERSION" > ./src/VERSION
 git add .
 git commit -m "Update version: $NEW_VERSION"
 git tag "$NEW_VERSION"
