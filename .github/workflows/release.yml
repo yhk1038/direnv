@@ -27,16 +27,30 @@ jobs:
 
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: 📝 Read release notes
+      - name: 📝 Generate release notes from commits
         id: notes
         run: |
-          if [ -f RELEASE.md ]; then
-            echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
-            cat RELEASE.md >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+          VERSION=${GITHUB_REF##*/}
+
+          # Get previous tag
+          PREV_TAG=$(git describe --tags --abbrev=0 $VERSION^ 2>/dev/null || echo "")
+
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
+          echo "## What's Changed" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+
+          if [ -n "$PREV_TAG" ]; then
+            # Generate changelog from commits between tags
+            git log $PREV_TAG..$VERSION --pretty=format:"- %s (%h)" --no-merges | grep -v "Update version:" >> $GITHUB_OUTPUT || echo "- No notable changes" >> $GITHUB_OUTPUT
           else
-            echo "RELEASE_NOTES=Auto-generated release for $VERSION" >> $GITHUB_OUTPUT
+            # First release
+            git log $VERSION --pretty=format:"- %s (%h)" --no-merges | head -10 >> $GITHUB_OUTPUT
           fi
+
+          echo "" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo "**Full Changelog**: https://github.com/yhk1038/direnv/compare/$PREV_TAG...$VERSION" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: 🚀 Create GitHub Release and upload assets
         uses: softprops/action-gh-release@v2
