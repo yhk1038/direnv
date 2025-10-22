@@ -55,14 +55,17 @@ _load_current_dir_env() {
     # 백업이 아직 없다면, 기존의 환경변수를 백업
     if [ ! -e "$ORIGINAL_VARIABLE_FILE" ]; then
       # printenv 명령어로 현재 환경 변수들을 순회하여 파일에 직접 작성
-      printenv | while IFS='=' read name value; do
+      # 값을 작은따옴표로 감싸서 특수문자 문제 방지
+      printenv | while IFS='=' read -r name value; do
+        # 값에 작은따옴표가 있으면 이스케이프 처리
+        escaped_value=$(printf '%s' "$value" | sed "s/'/'\\\\''/g")
         case "$name" in
-          [a-zA-Z]*) echo "export $name=$value" ;;
+          [a-zA-Z]*) printf "export %s='%s'\n" "$name" "$escaped_value" ;;
           *)
             if [ -z "$value" ]; then
               echo "$name"
             else
-              echo "export $name=$value"
+              printf "export %s='%s'\n" "$name" "$escaped_value"
             fi
             ;;
         esac

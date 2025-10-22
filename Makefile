@@ -3,8 +3,28 @@
 # 🔄 테스트 실행
 # 사용법: make test
 test:
-	@echo "🔍 Running direnv environment loading tests..."
+	@echo "=========================================="
+	@echo "🔍 Running direnv test suite"
+	@echo "=========================================="
+	@echo ""
+	@echo "Running: test_load_current_dir_env.sh"
 	@sh test/test_load_current_dir_env.sh
+	@echo ""
+	@echo "Running: test_cd_error_fix.sh"
+	@sh test/test_cd_error_fix.sh
+	@echo ""
+	@echo "Running: test_backup_restore_mechanism.sh"
+	@sh test/test_backup_restore_mechanism.sh
+	@echo ""
+	@echo "Running: test_unload_current_dir_env.sh"
+	@sh test/test_unload_current_dir_env.sh
+	@echo ""
+	@echo "Running: test_directory_changed_hook.sh"
+	@sh test/test_directory_changed_hook.sh
+	@echo ""
+	@echo "=========================================="
+	@echo "✅ All tests completed!"
+	@echo "=========================================="
 
 # 📦 릴리즈 - Semantic Versioning
 # 사용법:
