@@ -106,6 +106,33 @@ alias de=". $HOME/.direnv/src/init.sh"
 
 ---
 
+## 📋 Release Notes
+
+### v0.7.0 (2025-10-23)
+
+**New Features**:
+- Added comprehensive regression test suite (23 tests)
+  - Backup/restore mechanism tests (7 tests)
+  - Environment unloading tests (9 tests)
+  - Directory changed hook tests (7 tests)
+- Updated Makefile to run all test files with `make test`
+
+**Bug Fixes**:
+- Fixed critical subshell issue in environment unloading
+  - Problem: New aliases and variables were not actually removed when leaving directories
+  - Impact: Environment pollution when switching between projects
+- Fixed special character handling in environment variable backup
+  - Problem: Values with special characters caused restore failures
+  - Impact: Eliminated "Failed to restore environment variables" warnings
+
+**Documentation**:
+- Added comprehensive task documentation for regression testing
+- Updated test infrastructure
+
+[View all releases](https://github.com/yhk1038/direnv/releases)
+
+---
+
 ## 📄 License
 
 MIT License © [yhk1038](https://github.com/yhk1038)
