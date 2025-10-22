@@ -41,7 +41,12 @@ jobs:
 
           if [ -n "$PREV_TAG" ]; then
             # Generate changelog from commits between tags
-            git log $PREV_TAG..$VERSION --pretty=format:"- %s (%h)" --no-merges | grep -v "Update version:" >> $GITHUB_OUTPUT || echo "- No notable changes" >> $GITHUB_OUTPUT
+            COMMITS=$(git log $PREV_TAG..$VERSION --pretty=format:"- %s (%h)" --no-merges | grep -v "Update version:")
+            if [ -n "$COMMITS" ]; then
+              echo "$COMMITS" >> $GITHUB_OUTPUT
+            else
+              echo "- No notable changes" >> $GITHUB_OUTPUT
+            fi
           else
             # First release
             git log $VERSION --pretty=format:"- %s (%h)" --no-merges | head -10 >> $GITHUB_OUTPUT
