@@ -161,28 +161,38 @@ _de_update_version() {
 
 # Perform the actual update
 _de_perform_update() {
-  VERSION="$1"
+  TARGET_VERSION="$1"
   INSTALL_URL="https://raw.githubusercontent.com/yhk1038/direnv/main/install.sh"
+  TMP_INSTALL_SCRIPT="/tmp/direnv-install-$$.sh"
 
-  # Download and execute install.sh with VERSION environment variable
+  # Download install.sh to a temporary file
   if command -v curl >/dev/null 2>&1; then
-    if VERSION="$VERSION" sh -c "$(curl -fsSL "$INSTALL_URL")" 2>/dev/null; then
-      printf "$MSG_DE_UPDATE_COMPLETE\n" "$VERSION"
-      # Reinitialize direnv
-      . ~/.direnv/src/init.sh
-      return 0
-    fi
+    curl -fsSL "$INSTALL_URL" -o "$TMP_INSTALL_SCRIPT" 2>/dev/null || {
+      printf "$MSG_DE_UPDATE_FAILED\n"
+      return 1
+    }
   elif command -v wget >/dev/null 2>&1; then
-    if VERSION="$VERSION" sh -c "$(wget -qO- "$INSTALL_URL")" 2>/dev/null; then
-      printf "$MSG_DE_UPDATE_COMPLETE\n" "$VERSION"
-      # Reinitialize direnv
-      . ~/.direnv/src/init.sh
-      return 0
-    fi
+    wget -qO "$TMP_INSTALL_SCRIPT" "$INSTALL_URL" 2>/dev/null || {
+      printf "$MSG_DE_UPDATE_FAILED\n"
+      return 1
+    }
+  else
+    printf "$MSG_DE_UPDATE_FAILED\n"
+    return 1
   fi
 
-  printf "$MSG_DE_UPDATE_FAILED\n"
-  return 1
+  # Execute with VERSION environment variable
+  if VERSION="$TARGET_VERSION" sh "$TMP_INSTALL_SCRIPT"; then
+    rm -f "$TMP_INSTALL_SCRIPT"
+    printf "$MSG_DE_UPDATE_COMPLETE\n" "$TARGET_VERSION"
+    # Reinitialize direnv
+    . ~/.direnv/src/init.sh
+    return 0
+  else
+    rm -f "$TMP_INSTALL_SCRIPT"
+    printf "$MSG_DE_UPDATE_FAILED\n"
+    return 1
+  fi
 }
 
 # Show current version
