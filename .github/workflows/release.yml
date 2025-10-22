@@ -40,31 +40,27 @@ jobs:
             PREV_TAG=$(git rev-list --tags --skip=1 --max-count=1 2>/dev/null | xargs git describe --tags 2>/dev/null || echo "")
           fi
 
-          echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
-          echo "## What's Changed" >> $GITHUB_OUTPUT
-          echo "" >> $GITHUB_OUTPUT
+          {
+            echo "RELEASE_NOTES<<EOF"
+            echo "## What's Changed"
+            echo ""
 
-          if [ -n "$PREV_TAG" ]; then
-            # Generate changelog from commits between tags
-            COMMITS=$(git log $PREV_TAG..$VERSION --pretty=format:"- %s (%h)" --no-merges | grep -v "Update version:")
-            if [ -n "$COMMITS" ]; then
-              echo "$COMMITS" >> $GITHUB_OUTPUT
+            if [ -n "$PREV_TAG" ]; then
+              # Generate changelog from commits between tags
+              git log $PREV_TAG..$VERSION --pretty=format:"- %s (%h)" --no-merges | grep -v "Update version:" || echo "- No notable changes"
+              echo ""
+              echo ""
+              echo "**Full Changelog**: https://github.com/yhk1038/direnv/compare/$PREV_TAG...$VERSION"
             else
-              echo "- No notable changes" >> $GITHUB_OUTPUT
+              # First release
+              git log $VERSION --pretty=format:"- %s (%h)" --no-merges | head -10
+              echo ""
+              echo ""
+              echo "**First Release** 🎉"
             fi
 
-            echo "" >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "**Full Changelog**: https://github.com/yhk1038/direnv/compare/$PREV_TAG...$VERSION" >> $GITHUB_OUTPUT
-          else
-            # First release
-            git log $VERSION --pretty=format:"- %s (%h)" --no-merges | head -10 >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "" >> $GITHUB_OUTPUT
-            echo "**First Release** 🎉" >> $GITHUB_OUTPUT
-          fi
-
-          echo "EOF" >> $GITHUB_OUTPUT
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: 🚀 Create GitHub Release and upload assets
         uses: softprops/action-gh-release@v2
