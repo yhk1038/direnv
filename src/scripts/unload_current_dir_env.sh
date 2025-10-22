@@ -9,23 +9,29 @@ _unload_current_dir_env() {
   if [ -e "$CURRENT_ENV_FILE" ]; then
     # alias 를 제거
     # Debug 모드가 아닌 경우 에러 메시지를 억제합니다 (이미 제거된 alias에 대한 에러 방지)
-    grep '^alias ' "$CURRENT_ENV_FILE" | sed 's/^alias //' | while IFS='=' read name value; do
+    # 리디렉션 사용으로 서브셸 문제 방지
+    while IFS='=' read name value; do
       if [ "$DIRENV_DEBUG" = "1" ]; then
         unalias "$name"
       else
         unalias "$name" 2>/dev/null
       fi
-    done
+    done <<EOF
+$(grep '^alias ' "$CURRENT_ENV_FILE" | sed 's/^alias //')
+EOF
 
     # 환경변수를 제거
     # Debug 모드가 아닌 경우 에러 메시지를 억제합니다 (이미 제거된 변수에 대한 에러 방지)
-    grep '^export ' "$CURRENT_ENV_FILE" | sed 's/^export //' | while IFS='=' read name value; do
+    # 리디렉션 사용으로 서브셸 문제 방지
+    while IFS='=' read name value; do
       if [ "$DIRENV_DEBUG" = "1" ]; then
         unset "$name"
       else
         unset "$name" 2>/dev/null
       fi
-    done
+    done <<EOF
+$(grep '^export ' "$CURRENT_ENV_FILE" | sed 's/^export //')
+EOF
 
     # 백업해둔 alias 를 적용 후 성공시 백업파일 제거
     if [ -f "$ORIGINAL_ALIASES_FILE" ]; then
