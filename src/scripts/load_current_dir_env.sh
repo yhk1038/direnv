@@ -56,7 +56,13 @@ _load_current_dir_env() {
     if [ ! -e "$ORIGINAL_VARIABLE_FILE" ]; then
       # printenv 명령어로 현재 환경 변수들을 순회하여 파일에 직접 작성
       # 값을 작은따옴표로 감싸서 특수문자 문제 방지
+      # PWD와 OLDPWD는 제외 (셸 내부 상태이므로 백업/복원하면 안 됨)
       printenv | while IFS='=' read -r name value; do
+        # PWD와 OLDPWD 제외
+        case "$name" in
+          PWD|OLDPWD) continue ;;
+        esac
+
         # 값에 작은따옴표가 있으면 이스케이프 처리
         escaped_value=$(printf '%s' "$value" | sed "s/'/'\\\\''/g")
         case "$name" in
