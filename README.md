@@ -75,14 +75,31 @@ When you enter the directory, the environment is loaded automatically, and it's 
 
 ## 🧹 Uninstall
 
+To uninstall direnv, simply run the uninstall script:
+
 ```sh
-rm -rf ~/.direnv
+sh ~/.direnv/uninstall.sh
 ```
 
-You should also manually remove the direnv initialization lines from your shell configuration file (`.bashrc`, `.zshrc`, etc.):
+Or run directly from the remote:
 
-```bash
-# Remove these lines:
+```sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/uninstall.sh)"
+```
+
+The uninstall script will:
+- Ask for confirmation
+- Backup your shell configuration file (e.g., `.bashrc.backup.20251022_205030`)
+- Remove direnv initialization lines from your shell configuration
+- Delete the `~/.direnv` directory
+
+**Manual uninstall** (if you prefer not to use the script):
+
+```sh
+# 1. Remove the directory
+rm -rf ~/.direnv
+
+# 2. Edit your shell rc file (.bashrc, .zshrc, etc.) and remove these lines:
 [ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
 alias de=". $HOME/.direnv/src/init.sh"
 ```

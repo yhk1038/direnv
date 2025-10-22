@@ -62,6 +62,15 @@ tar -xzf "$TMP_TAR_FILE" -C "$INSTALL_DIR" --strip-components=1 || {
 rm -f "$TMP_TAR_FILE"
 log "$(printf "$MSG_DONE_INSTALL_DIR" "$INSTALL_DIR")"
 
+# 2-1단계: uninstall.sh 다운로드
+UNINSTALL_URL="https://raw.githubusercontent.com/yhk1038/direnv/main/uninstall.sh"
+if command -v curl >/dev/null 2>&1; then
+  curl -fsSL "$UNINSTALL_URL" -o "$INSTALL_DIR/uninstall.sh" 2>/dev/null
+elif command -v wget >/dev/null 2>&1; then
+  wget -q "$UNINSTALL_URL" -O "$INSTALL_DIR/uninstall.sh" 2>/dev/null
+fi
+chmod +x "$INSTALL_DIR/uninstall.sh" 2>/dev/null
+
 # 3단계: 사용자 shell 설정 파일 감지
 step "$MSG_STEP_SHELL"
 SHELL_NAME=$(basename "$SHELL")
