@@ -11,8 +11,8 @@ MSG_DONE_INSTALL_DIR='설치 디렉토리: %s'
 MSG_STEP_SHELL='3. 사용자 shell 환경 감지 중...'
 MSG_DONE_RCFILE='감지된 shell rc 파일: %s'
 
-MSG_STEP_ALIAS='4. alias 추가 중...'
-MSG_DONE_ALIAS_ADDED='alias '\''de'\'' 추가 완료'
-MSG_DONE_ALIAS_EXISTS='이미 alias '\''de'\''가 등록되어 있습니다.'
+MSG_STEP_INIT='4. 자동 초기화 설정 중...'
+MSG_DONE_INIT_ADDED='자동 초기화 설정 완료'
+MSG_DONE_INIT_EXISTS='이미 자동 초기화가 설정되어 있습니다.'
 
-MSG_DONE_COMPLETE='🎉 설치가 완료되었습니다! 새로운 터미널에서 '\''de'\''를 실행해보세요.'
+MSG_DONE_COMPLETE='🎉 설치가 완료되었습니다! 새로운 터미널에서 direnv가 자동으로 활성화됩니다.'

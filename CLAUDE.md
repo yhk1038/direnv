@@ -381,9 +381,17 @@ make release VERSION=v0.1.2
 
 ## 유용한 별칭 (Aliases)
 
-설치 후 사용자 환경에 자동으로 추가되는 별칭:
+설치 후 사용자 환경에 자동으로 추가되는 설정:
 
-- `de`: direnv 초기화 (`. $HOME/.direnv/src/init.sh`)
+**자동 초기화:**
+```bash
+[ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
+```
+- 터미널을 열면 자동으로 direnv가 활성화됩니다
+- 홈 디렉토리 하위 디렉토리에서 `.envrc` 또는 `.profile` 파일이 있으면 자동 로딩됩니다
+
+**수동 별칭:**
+- `de`: direnv 재초기화 (`. $HOME/.direnv/src/init.sh`) - 설정 변경 후 리로드 용도
 - `dl`: 현재 로딩된 환경 파일 내용 출력
 - `df`: `~/.direnv/tmp/*` 임시 파일 모두 삭제 (debug/cleanup용)
 

@@ -11,8 +11,8 @@ MSG_DONE_INSTALL_DIR='Installation directory: %s'
 MSG_STEP_SHELL='3. Detecting user shell...'
 MSG_DONE_RCFILE='Detected shell rc file: %s'
 
-MSG_STEP_ALIAS='4. Adding alias...'
-MSG_DONE_ALIAS_ADDED='Alias '\''de'\'' has been added'
-MSG_DONE_ALIAS_EXISTS='Alias '\''de'\'' is already registered.'
+MSG_STEP_INIT='4. Setting up auto-initialization...'
+MSG_DONE_INIT_ADDED='Auto-initialization has been configured'
+MSG_DONE_INIT_EXISTS='Auto-initialization is already configured.'
 
-MSG_DONE_COMPLETE='🎉 Installation complete! Try running '\''de'\'' in a new terminal session.'
+MSG_DONE_COMPLETE='🎉 Installation complete! Direnv will be automatically activated in new terminal sessions.'

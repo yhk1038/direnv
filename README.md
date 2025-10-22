@@ -28,13 +28,15 @@ Install with a single command:
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/install.sh)"
 ```
 
-After installation, restart your terminal or apply the environment with:
+After installation, **direnv will be automatically activated** when you open a new terminal session.
 
-```sh
-de
-```
-
-> This command is registered as an alias: `alias de=". $HOME/.direnv/init.sh"`
+> The installer adds the following to your shell configuration file (`.bashrc`, `.zshrc`, etc.):
+> ```bash
+> [ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
+> alias de=". $HOME/.direnv/src/init.sh"
+> ```
+>
+> The `de` alias allows you to manually reload direnv if needed (e.g., after configuration changes).
 
 ---
 
@@ -75,10 +77,15 @@ When you enter the directory, the environment is loaded automatically, and it's 
 
 ```sh
 rm -rf ~/.direnv
-unalias de
 ```
 
-You may also manually remove the `alias de=...` line from your `.bashrc`, `.zshrc`, etc., if needed.
+You should also manually remove the direnv initialization lines from your shell configuration file (`.bashrc`, `.zshrc`, etc.):
+
+```bash
+# Remove these lines:
+[ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
+alias de=". $HOME/.direnv/src/init.sh"
+```
 
 ---
 

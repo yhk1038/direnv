@@ -26,13 +26,15 @@
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/install.sh)"
 ```
 
-설치가 완료되면, 셸 재시작 또는 다음 명령으로 설정을 적용할 수 있습니다:
+설치가 완료되면, **새로운 터미널 세션에서 direnv가 자동으로 활성화**됩니다.
 
-```sh
-de
-```
-
-> 위 명령은 `alias de=". $HOME/.direnv/init.sh"` 를 통해 등록됩니다.
+> 설치 스크립트가 셸 설정 파일(`.bashrc`, `.zshrc` 등)에 다음을 추가합니다:
+> ```bash
+> [ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
+> alias de=". $HOME/.direnv/src/init.sh"
+> ```
+>
+> `de` 별칭을 사용하면 필요할 때 수동으로 direnv를 재로드할 수 있습니다 (설정 변경 후 등).
 
 ---
 
@@ -73,10 +75,15 @@ alias run="npm start"
 
 ```sh
 rm -rf ~/.direnv
-unalias de
 ```
 
-그리고 `.bashrc`, `.zshrc` 등에서 등록된 `alias de=...` 라인이 남아 있다면 필요에 따라 수동으로 제거할 수 있습니다.
+셸 설정 파일(`.bashrc`, `.zshrc` 등)에서 direnv 초기화 라인도 수동으로 제거해야 합니다:
+
+```bash
+# 다음 라인들을 제거하세요:
+[ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
+alias de=". $HOME/.direnv/src/init.sh"
+```
 
 ---
 
