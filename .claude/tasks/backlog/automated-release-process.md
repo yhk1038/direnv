@@ -26,9 +26,9 @@ Automation would improve:
 
 ### Scope
 **Included**:
-- [ ] Automated version bumping
+- [x] Automated version bumping
 - [ ] Changelog generation
-- [ ] Tag creation
+- [x] Tag creation
 - [ ] Release notes automation
 - [ ] CI/CD integration
 
@@ -53,8 +53,20 @@ Automation would improve:
 
 ### 2025-10-22
 - Started implementation of semantic version bump system
-- Current focus: Implementing patch/minor/major version bumping in release.sh
-- Goal: Replace manual version input with automated semantic versioning
+- Implemented semantic version bumping in release.sh:
+  - Added patch/minor/major support
+  - Automatic version parsing from VERSION file
+  - User confirmation before release
+  - POSIX-compliant shell script
+- Updated Makefile with new targets:
+  - `make release-patch` for bug fixes
+  - `make release-minor` for new features
+  - `make release-major` for breaking changes
+  - Legacy `make release VERSION=...` marked as deprecated
+- Tested all three bump types successfully:
+  - patch: v0.1.1 -> v0.1.2 ✅
+  - minor: v0.1.1 -> v0.2.0 ✅
+  - major: v0.1.1 -> v1.0.0 ✅
 
 ---
 
