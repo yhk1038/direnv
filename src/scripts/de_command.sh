@@ -43,8 +43,8 @@ de() {
 
 # Helper function: Get current version
 _de_get_current_version() {
-  if [ -f ~/.direnv/VERSION ]; then
-    cat ~/.direnv/VERSION
+  if [ -f ~/.direnv/src/VERSION ]; then
+    cat ~/.direnv/src/VERSION
   else
     echo "unknown"
   fi

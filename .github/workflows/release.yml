@@ -22,7 +22,7 @@ jobs:
         run: |
           VERSION=${GITHUB_REF##*/}
           PROJECT_NAME="direnv"
-          
+
           mkdir -p dist
           tar -czf dist/${PROJECT_NAME}-${VERSION}.tar.gz ./src
           zip -r dist/${PROJECT_NAME}-${VERSION}.zip ./src

@@ -33,7 +33,7 @@ error() { printf "\033[1;31m[✘]\033[0m %s\n" "$1" >&2; }
 step() { printf "\n\033[1;34m▶ %s\033[0m\n" "$1"; }
 
 # 설치 버전과 URL 설정
-VERSION="$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/VERSION)"
+VERSION="$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/src/VERSION)"
 TAR_URL="https://github.com/yhk1038/direnv/releases/download/$VERSION/direnv-$VERSION.tar.gz"
 INSTALL_DIR="$HOME/.direnv"
 TMP_TAR_FILE="/tmp/direnv.tar.gz"
@@ -60,9 +60,6 @@ tar -xzf "$TMP_TAR_FILE" -C "$INSTALL_DIR" --strip-components=1 || {
   error "$MSG_ERR_EXTRACT"; exit 1;
 }
 rm -f "$TMP_TAR_FILE"
-
-# VERSION 파일 생성
-echo "$VERSION" > "$INSTALL_DIR/VERSION"
 
 log "$(printf "$MSG_DONE_INSTALL_DIR" "$INSTALL_DIR")"
 
