@@ -99,7 +99,8 @@ _de_show_versions() {
   printf "\n$MSG_DE_AVAILABLE_VERSIONS\n"
 
   # Display all versions with markers
-  echo "$RELEASES" | _de_parse_versions | while IFS= read -r version; do
+  # Use process substitution to avoid subshell issues
+  while IFS= read -r version; do
     if [ "$version" = "$CURRENT_VERSION" ]; then
       printf "  %s (current)\n" "$version"
     elif [ "$version" = "$LATEST_VERSION" ]; then
@@ -107,7 +108,9 @@ _de_show_versions() {
     else
       printf "  %s\n" "$version"
     fi
-  done
+  done <<EOF
+$(echo "$RELEASES" | _de_parse_versions)
+EOF
 }
 
 # Update to latest version
@@ -186,4 +189,7 @@ _de_show_help() {
   printf "%s\n" "$MSG_DE_HELP_CMD_VERSIONS"
   printf "%s\n" "$MSG_DE_HELP_CMD_VERSION"
   printf "%s\n" "$MSG_DE_HELP_CMD_HELP"
+  printf "\n%s\n" "$MSG_DE_HELP_OTHER_COMMANDS"
+  printf "%s\n" "$MSG_DE_HELP_CMD_DL"
+  printf "%s\n" "$MSG_DE_HELP_CMD_DF"
 }

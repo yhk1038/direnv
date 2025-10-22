@@ -56,3 +56,6 @@ MSG_DE_HELP_CMD_UPDATE_VER='  de update <버전>      특정 버전으로 업데
 MSG_DE_HELP_CMD_VERSIONS='  de versions           사용 가능한 버전 목록 표시'
 MSG_DE_HELP_CMD_VERSION='  de --version, -v      현재 버전 표시'
 MSG_DE_HELP_CMD_HELP='  de --help, -h, help   도움말 표시'
+MSG_DE_HELP_OTHER_COMMANDS='기타 명령어:'
+MSG_DE_HELP_CMD_DL='  dl                    현재 로딩된 환경 파일 내용 출력'
+MSG_DE_HELP_CMD_DF='  df                    임시 파일 정리 (~/.direnv/tmp/*)'

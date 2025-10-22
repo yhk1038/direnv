@@ -56,3 +56,6 @@ MSG_DE_HELP_CMD_UPDATE_VER='  de update <version>   Update to a specific version
 MSG_DE_HELP_CMD_VERSIONS='  de versions           Show available versions'
 MSG_DE_HELP_CMD_VERSION='  de --version, -v      Show current version'
 MSG_DE_HELP_CMD_HELP='  de --help, -h, help   Show this help message'
+MSG_DE_HELP_OTHER_COMMANDS='Other commands:'
+MSG_DE_HELP_CMD_DL='  dl                    Show contents of currently loaded env file'
+MSG_DE_HELP_CMD_DF='  df                    Clean up temporary files (~/.direnv/tmp/*)'
