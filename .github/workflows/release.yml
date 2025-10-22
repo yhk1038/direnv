@@ -32,8 +32,13 @@ jobs:
         run: |
           VERSION=${GITHUB_REF##*/}
 
-          # Get previous tag
-          PREV_TAG=$(git describe --tags --abbrev=0 $VERSION^ 2>/dev/null || echo "")
+          # Get previous tag - find the tag before current one
+          PREV_TAG=$(git tag --sort=-version:refname | grep -A1 "^${VERSION}$" | tail -n1)
+
+          # If PREV_TAG is same as VERSION (only one tag exists), try alternate method
+          if [ "$PREV_TAG" = "$VERSION" ] || [ -z "$PREV_TAG" ]; then
+            PREV_TAG=$(git rev-list --tags --skip=1 --max-count=1 2>/dev/null | xargs git describe --tags 2>/dev/null || echo "")
+          fi
 
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
           echo "## What's Changed" >> $GITHUB_OUTPUT
@@ -47,14 +52,18 @@ jobs:
             else
               echo "- No notable changes" >> $GITHUB_OUTPUT
             fi
+
+            echo "" >> $GITHUB_OUTPUT
+            echo "" >> $GITHUB_OUTPUT
+            echo "**Full Changelog**: https://github.com/yhk1038/direnv/compare/$PREV_TAG...$VERSION" >> $GITHUB_OUTPUT
           else
             # First release
             git log $VERSION --pretty=format:"- %s (%h)" --no-merges | head -10 >> $GITHUB_OUTPUT
+            echo "" >> $GITHUB_OUTPUT
+            echo "" >> $GITHUB_OUTPUT
+            echo "**First Release** 🎉" >> $GITHUB_OUTPUT
           fi
 
-          echo "" >> $GITHUB_OUTPUT
-          echo "" >> $GITHUB_OUTPUT
-          echo "**Full Changelog**: https://github.com/yhk1038/direnv/compare/$PREV_TAG...$VERSION" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: 🚀 Create GitHub Release and upload assets
