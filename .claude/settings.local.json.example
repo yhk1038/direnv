@@ -1,0 +1,14 @@
+{
+  "communication": {
+    "language": "ko",
+    "style": "casual"
+  },
+  "developer": {
+    "name": "Your Name",
+    "timezone": "Asia/Seoul"
+  },
+  "preferences": {
+    "autoMergeDocs": false,
+    "alwaysAskBeforePush": true
+  }
+}
