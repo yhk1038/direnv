@@ -1,10 +1,10 @@
 # Automated Release Process
 
 **Task ID**: `backlog-04`
-**Assignee**: (TBD)
-**Start Date**: (TBD)
+**Assignee**: Yonghyun Kim (Freddy) (Claude Code)
+**Start Date**: 2025-10-22
 **Completion Date**: (TBD)
-**Status**: ⚪ Backlog
+**Status**: 🟡 In Progress
 
 ---
 
@@ -46,6 +46,15 @@ Automation would improve:
 - [ ] Testing automatic releases
 - [ ] Documentation updated
 - [ ] Runbook created
+
+---
+
+## 📝 Progress Log
+
+### 2025-10-22
+- Started implementation of semantic version bump system
+- Current focus: Implementing patch/minor/major version bumping in release.sh
+- Goal: Replace manual version input with automated semantic versioning
 
 ---
 
