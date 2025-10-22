@@ -8,13 +8,23 @@ ORIGINAL_VARIABLE_FILE=~/.direnv/tmp/original_environment_variables
 _unload_current_dir_env() {
   if [ -e "$CURRENT_ENV_FILE" ]; then
     # alias 를 제거
+    # Debug 모드가 아닌 경우 에러 메시지를 억제합니다 (이미 제거된 alias에 대한 에러 방지)
     grep '^alias ' "$CURRENT_ENV_FILE" | sed 's/^alias //' | while IFS='=' read name value; do
-      unalias "$name"
+      if [ "$DIRENV_DEBUG" = "1" ]; then
+        unalias "$name"
+      else
+        unalias "$name" 2>/dev/null
+      fi
     done
 
     # 환경변수를 제거
+    # Debug 모드가 아닌 경우 에러 메시지를 억제합니다 (이미 제거된 변수에 대한 에러 방지)
     grep '^export ' "$CURRENT_ENV_FILE" | sed 's/^export //' | while IFS='=' read name value; do
-      unset "$name"
+      if [ "$DIRENV_DEBUG" = "1" ]; then
+        unset "$name"
+      else
+        unset "$name" 2>/dev/null
+      fi
     done
 
     # 백업해둔 alias 를 적용 후 성공시 백업파일 제거
