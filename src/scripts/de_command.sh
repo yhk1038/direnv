@@ -21,6 +21,10 @@ de() {
       # Show available versions
       _de_show_versions
       ;;
+    --version|-v)
+      # Show current version
+      _de_show_version
+      ;;
     --help|-h|help)
       # Show help message
       _de_show_help
@@ -166,6 +170,12 @@ _de_perform_update() {
   return 1
 }
 
+# Show current version
+_de_show_version() {
+  CURRENT_VERSION=$(_de_get_current_version)
+  printf "direnv %s\n" "$CURRENT_VERSION"
+}
+
 # Show help message
 _de_show_help() {
   printf "%s\n\n" "$MSG_DE_HELP_USAGE"
@@ -174,5 +184,6 @@ _de_show_help() {
   printf "%s\n" "$MSG_DE_HELP_CMD_UPDATE"
   printf "%s\n" "$MSG_DE_HELP_CMD_UPDATE_VER"
   printf "%s\n" "$MSG_DE_HELP_CMD_VERSIONS"
+  printf "%s\n" "$MSG_DE_HELP_CMD_VERSION"
   printf "%s\n" "$MSG_DE_HELP_CMD_HELP"
 }

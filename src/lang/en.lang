@@ -54,4 +54,5 @@ MSG_DE_HELP_CMD_NONE='  de                    Reinitialize direnv (reload config
 MSG_DE_HELP_CMD_UPDATE='  de update             Update to the latest version'
 MSG_DE_HELP_CMD_UPDATE_VER='  de update <version>   Update to a specific version (e.g., de update v0.4.0)'
 MSG_DE_HELP_CMD_VERSIONS='  de versions           Show available versions'
+MSG_DE_HELP_CMD_VERSION='  de --version, -v      Show current version'
 MSG_DE_HELP_CMD_HELP='  de --help, -h, help   Show this help message'
