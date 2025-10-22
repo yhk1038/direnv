@@ -185,8 +185,7 @@ _de_perform_update() {
   if VERSION="$TARGET_VERSION" sh "$TMP_INSTALL_SCRIPT"; then
     rm -f "$TMP_INSTALL_SCRIPT"
     printf "$MSG_DE_UPDATE_COMPLETE\n" "$TARGET_VERSION"
-    # Reinitialize direnv
-    . ~/.direnv/src/init.sh
+    printf "\n$MSG_DE_UPDATE_RELOAD_HINT\n"
     return 0
   else
     rm -f "$TMP_INSTALL_SCRIPT"
