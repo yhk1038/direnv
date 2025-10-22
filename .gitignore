@@ -1,2 +1,6 @@
 .idea
 .DS_Store
+
+# Personal agent settings and tasks
+.claude/settings.local.json
+.claude/tasks/personal/
