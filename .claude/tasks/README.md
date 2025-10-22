@@ -23,14 +23,85 @@ This directory (`.claude/tasks/`) is where **all tasks** for the project are doc
 .claude/tasks/
 ├── README.md           # This file (task documentation guide)
 ├── template.md         # Task document template
+├── TODO.md             # High-level task checklist
 │
-├── personal/           # Personal tasks (gitignored, any language)
+├── phase-1/            # Phase 1 tasks (Foundation & Core Features)
+│   └── ... (tasks in progress or completed)
+│
+├── phase-2/            # Phase 2 tasks (Enhancement & Optimization)
+│   └── ... (planned or in progress)
+│
+├── backlog/            # Backlog (not yet assigned to phase)
 │   ├── .gitkeep
-│   └── ... (your personal notes and drafts)
+│   └── ... (tasks awaiting prioritization)
 │
-├── 01-add-japanese-support.md
-├── 02-improve-performance.md
-└── ... (shared tasks, written in English)
+├── archive/            # Archived tasks (completed or cancelled)
+│   ├── .gitkeep
+│   └── ... (historical reference)
+│
+└── personal/           # Personal tasks (gitignored, any language)
+    ├── .gitkeep
+    └── ... (your personal notes and drafts)
+```
+
+### Task Organization
+
+#### Phases
+
+Projects are organized into **phases** - groups of related features or improvements.
+
+**Phase 1: Foundation & Core Features**
+- Core functionality improvements
+- Essential bug fixes
+- Critical documentation
+- Basic test coverage
+
+**Phase 2: Enhancement & Optimization**
+- Performance improvements
+- Advanced features
+- Enhanced user experience
+- Comprehensive testing
+
+**Future Phases**: Add as needed based on project evolution
+
+#### Backlog
+
+**Backlog** contains tasks that are planned but not yet assigned to a specific phase.
+
+- **Flexible Priority**: Not tied to any phase, can be moved when ready
+- **Priority Tags**: Use ⭐⭐⭐ High, ⭐⭐ Medium, ⭐ Low in task documents
+- **Independent**: Each task can be started independently
+
+**Moving from Backlog to Phase**:
+```bash
+# 1. Move task file to appropriate phase
+mv .claude/tasks/backlog/task-name.md .claude/tasks/phase-X/XX-task-name.md
+
+# 2. Update task document metadata
+# - Update filename numbering (XX)
+# - Update branch information
+
+# 3. Commit to main
+git add .claude/tasks/
+git commit -m "docs: move [task] from backlog to Phase X"
+```
+
+#### Archive
+
+**Archive** contains completed or cancelled tasks preserved for reference.
+
+- **Completed Tasks**: Moved here after successful completion
+- **Cancelled Tasks**: Tasks that are no longer relevant
+- **Historical Reference**: Preserved for learning and context
+
+**Archiving a Task**:
+```bash
+# Move completed task to archive
+mv .claude/tasks/phase-X/XX-task-name.md .claude/tasks/archive/
+
+# Commit
+git add .claude/tasks/
+git commit -m "docs: archive completed task [task-name]"
 ```
 
 ### Shared vs Personal Tasks
@@ -38,13 +109,13 @@ This directory (`.claude/tasks/`) is where **all tasks** for the project are doc
 **Shared Tasks** (committed to Git, written in English):
 - Tasks that contribute to the project
 - Collaborative work visible to all contributors
-- Located directly in `.claude/tasks/`
+- Located in `phase-*/`, `backlog/`, or root
 
 **Personal Tasks** (gitignored, any language allowed):
 - Personal experiments, drafts, notes
 - Work-in-progress ideas not ready to share
 - Located in `.claude/tasks/personal/`
-- When ready to share, translate to English and move to shared area
+- When ready to share, translate to English and move to backlog or phase
 
 ---
 

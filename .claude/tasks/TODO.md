@@ -3,82 +3,108 @@
 *Created: April 8, 2024*
 *Updated: October 22, 2025*
 
-This document provides a high-level overview of planned improvements. Each category links to detailed task documents.
+This document provides a high-level overview of planned improvements organized by phase and priority.
 
 ---
 
-## 📝 Documentation Improvements
-- [ ] [01-advanced-usage-docs.md](01-advanced-usage-docs.md) - Add advanced usage documentation
-- [ ] [02-configuration-examples.md](02-configuration-examples.md) - Add various configuration examples
-  - Basic environment variable examples
-  - Alias configuration examples
-  - Function definition examples
-  - Project-specific configuration examples
+## 📌 Phase 1: Foundation & Core Features
 
-## 🧪 Test Enhancement
-- [ ] [03-shell-compatibility-tests.md](03-shell-compatibility-tests.md) - Add compatibility tests for various shells
-  - bash test cases
-  - zsh test cases
-  - ksh test cases
-- [ ] [04-edge-case-tests.md](04-edge-case-tests.md) - Add edge case tests
-- [ ] [05-performance-tests.md](05-performance-tests.md) - Add performance tests
+Essential improvements for stability, documentation, and basic functionality.
 
-## ⚠️ Error Handling Improvements
-- [ ] [06-detailed-error-messages.md](06-detailed-error-messages.md) - Add detailed error messages
-- [ ] [07-debugging-logging-system.md](07-debugging-logging-system.md) - Implement debugging logging system
-  - Log level configuration
-  - Log output format definition
-- [ ] [08-troubleshooting-guide.md](08-troubleshooting-guide.md) - Document troubleshooting guide
+### 📝 Documentation Improvements
+- [ ] [phase-1/01-advanced-usage-docs.md](phase-1/01-advanced-usage-docs.md) - Add advanced usage documentation
+- [ ] [phase-1/02-configuration-examples.md](phase-1/02-configuration-examples.md) - Add various configuration examples
 
-## 🚀 Feature Extensions
-- [ ] [09-additional-file-format-support.md](09-additional-file-format-support.md) - Support additional file formats
-  - .env file support
-  - YAML format support
-  - JSON format support
-- [ ] [10-change-history-tracking.md](10-change-history-tracking.md) - Environment variable change history tracking
-  - Change history storage
-  - Rollback functionality
-  - Change diff viewer
+### 🧪 Test Enhancement
+- [ ] [phase-1/03-shell-compatibility-tests.md](phase-1/03-shell-compatibility-tests.md) - Add compatibility tests for various shells
+- [ ] [phase-1/04-edge-case-tests.md](phase-1/04-edge-case-tests.md) - Add edge case tests
 
-## 🔒 Security Enhancements
-- [ ] [11-security-guidelines.md](11-security-guidelines.md) - Write security guidelines
-- [ ] [12-file-permission-check.md](12-file-permission-check.md) - Add `.envrc` file permission check
-  - File ownership verification
-  - Proper permission settings check
-- [ ] [13-sensitive-info-handling.md](13-sensitive-info-handling.md) - Add sensitive information handling guidelines
+### ⚠️ Error Handling Improvements
+- [ ] [phase-1/05-detailed-error-messages.md](phase-1/05-detailed-error-messages.md) - Add detailed error messages
+- [ ] [phase-1/06-troubleshooting-guide.md](phase-1/06-troubleshooting-guide.md) - Document troubleshooting guide
 
-## ⚡ Performance Optimization
-- [ ] [14-large-config-processing.md](14-large-config-processing.md) - Improve large environment configuration processing
-- [ ] [15-caching-mechanism.md](15-caching-mechanism.md) - Implement caching mechanism
-  - Environment configuration caching
-  - Cache invalidation strategy
-- [ ] [16-performance-metrics.md](16-performance-metrics.md) - Performance metrics collection and monitoring
-
-## 🌟 User Experience Improvements
-- [ ] [17-color-output-support.md](17-color-output-support.md) - Add color output support
-- [ ] [18-interactive-config-tool.md](18-interactive-config-tool.md) - Add interactive configuration tool
-- [ ] [19-auto-completion.md](19-auto-completion.md) - Improve auto-completion functionality
-
-## 📦 Deployment and Maintenance
-- [ ] [20-automated-release-process.md](20-automated-release-process.md) - Build automated release process
-- [ ] [21-version-management-strategy.md](21-version-management-strategy.md) - Establish version management strategy
-- [ ] [22-contributor-guidelines.md](22-contributor-guidelines.md) - Write contributor guidelines
+### 🔒 Security Enhancements
+- [ ] [phase-1/07-security-guidelines.md](phase-1/07-security-guidelines.md) - Write security guidelines
+- [ ] [phase-1/08-file-permission-check.md](phase-1/08-file-permission-check.md) - Add `.envrc` file permission check
 
 ---
 
-## How to Use This Document
+## 🚀 Phase 2: Enhancement & Optimization
 
-1. **Check TODO**: Review this checklist to see overall progress
-2. **Pick a Task**: Choose an unchecked item to work on
-3. **Create Task Document**: Use [template.md](template.md) to create detailed task document with the filename shown above
-4. **Start Work**: Follow [Agent Workflow](../agent-workflow.md) to begin implementation
-5. **Check Off**: Mark the item as completed when done
+Advanced features, performance improvements, and user experience enhancements.
+
+### 🚀 Feature Extensions
+- [ ] [phase-2/09-additional-file-format-support.md](phase-2/09-additional-file-format-support.md) - Support additional file formats
+- [ ] [phase-2/10-change-history-tracking.md](phase-2/10-change-history-tracking.md) - Environment variable change history tracking
+
+### ⚡ Performance Optimization
+- [ ] [phase-2/11-large-config-processing.md](phase-2/11-large-config-processing.md) - Improve large environment configuration processing
+- [ ] [phase-2/12-caching-mechanism.md](phase-2/12-caching-mechanism.md) - Implement caching mechanism
+- [ ] [phase-2/13-performance-metrics.md](phase-2/13-performance-metrics.md) - Performance metrics collection and monitoring
+
+### 🌟 User Experience Improvements
+- [ ] [phase-2/14-color-output-support.md](phase-2/14-color-output-support.md) - Add color output support
+- [ ] [phase-2/15-interactive-config-tool.md](phase-2/15-interactive-config-tool.md) - Add interactive configuration tool
+- [ ] [phase-2/16-auto-completion.md](phase-2/16-auto-completion.md) - Improve auto-completion functionality
 
 ---
 
-## Notes
+## 📋 Backlog
 
-- Task documents should be created as needed, not all at once
-- Prioritize based on project needs and user feedback
-- Some tasks may be combined or split based on scope
-- Task IDs (01-22) are suggested filenames, adjust as needed
+Tasks not yet assigned to a specific phase. Move to appropriate phase when ready.
+
+### ⚠️ Error Handling
+- [ ] [backlog/debugging-logging-system.md](backlog/debugging-logging-system.md) - Implement debugging logging system
+- [ ] [backlog/performance-tests.md](backlog/performance-tests.md) - Add performance tests
+
+### 🔒 Security
+- [ ] [backlog/sensitive-info-handling.md](backlog/sensitive-info-handling.md) - Add sensitive information handling guidelines
+
+### 📦 Deployment and Maintenance
+- [ ] [backlog/automated-release-process.md](backlog/automated-release-process.md) - Build automated release process
+- [ ] [backlog/version-management-strategy.md](backlog/version-management-strategy.md) - Establish version management strategy
+- [ ] [backlog/contributor-guidelines.md](backlog/contributor-guidelines.md) - Write contributor guidelines
+
+---
+
+## 📖 How to Use This Document
+
+### For Developers
+1. **Choose a Phase**: Start with Phase 1 for foundational work
+2. **Pick a Task**: Select an unchecked item from that phase
+3. **Create Task Document**: Use [template.md](template.md) if task document doesn't exist
+4. **Start Work**: Follow [Agent Workflow](../agent-workflow.md)
+5. **Check Off**: Mark completed when done
+
+### For Agents
+Before starting any task:
+1. **Search**: Check if task document exists (`Glob: .claude/tasks/**/*.md`)
+2. **Read**: Review existing task document if found
+3. **Create**: If no document exists, create from template
+4. **Update**: Keep progress log and technical decisions current
+
+### Moving Tasks Between Phases
+Tasks can be moved from backlog to phase or between phases as priorities change:
+```bash
+# Example: Move task from backlog to Phase 1
+mv .claude/tasks/backlog/task-name.md .claude/tasks/phase-1/09-task-name.md
+```
+
+---
+
+## 📌 Notes
+
+- **Phase 1** focuses on stability and essential features
+- **Phase 2** focuses on advanced functionality and optimization
+- **Backlog** contains valuable tasks awaiting prioritization
+- Task numbers may be adjusted as tasks are added or reorganized
+- Some tasks may be combined or split based on actual scope during implementation
+
+---
+
+## 🗂️ Related Documents
+
+- [Task Documentation Guide](README.md) - How to manage task documents
+- [Task Template](template.md) - Template for new task documents
+- [Agent Workflow](../agent-workflow.md) - Complete workflow process
+- [Branching Strategy](../branching-strategy.md) - Branch management rules
