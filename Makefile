@@ -22,6 +22,9 @@ test:
 	@echo "Running: test_directory_changed_hook.sh"
 	@sh test/test_directory_changed_hook.sh
 	@echo ""
+	@echo "Running: test_secure_install.sh"
+	@sh test/test_secure_install.sh
+	@echo ""
 	@echo "=========================================="
 	@echo "✅ All tests completed!"
 	@echo "=========================================="
