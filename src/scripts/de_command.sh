@@ -25,6 +25,10 @@ de() {
       # Show current version
       _de_show_version
       ;;
+    uninstall)
+      # Uninstall direnv
+      _de_uninstall
+      ;;
     --help|-h|help)
       # Show help message
       _de_show_help
@@ -179,6 +183,20 @@ _de_show_version() {
   printf "direnv %s\n" "$CURRENT_VERSION"
 }
 
+# Uninstall direnv
+_de_uninstall() {
+  # Check if uninstall.sh exists
+  if [ -f ~/.direnv/uninstall.sh ]; then
+    sh ~/.direnv/uninstall.sh
+  else
+    echo "⚠️  Uninstall script not found at ~/.direnv/uninstall.sh"
+    echo "Please download and run it manually:"
+    echo ""
+    echo "  sh -c \"\$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/uninstall.sh)\""
+    return 1
+  fi
+}
+
 # Show help message
 _de_show_help() {
   printf "%s\n\n" "$MSG_DE_HELP_USAGE"
@@ -188,6 +206,7 @@ _de_show_help() {
   printf "%s\n" "$MSG_DE_HELP_CMD_UPDATE_VER"
   printf "%s\n" "$MSG_DE_HELP_CMD_VERSIONS"
   printf "%s\n" "$MSG_DE_HELP_CMD_VERSION"
+  printf "%s\n" "$MSG_DE_HELP_CMD_UNINSTALL"
   printf "%s\n" "$MSG_DE_HELP_CMD_HELP"
   printf "\n%s\n" "$MSG_DE_HELP_OTHER_COMMANDS"
   printf "%s\n" "$MSG_DE_HELP_CMD_DL"
