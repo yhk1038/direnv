@@ -2,6 +2,9 @@
 # de_command.sh
 # Enhanced de command with subcommand support
 
+# Unalias de if it exists (to avoid conflicts with function definition)
+unalias de 2>/dev/null || true
+
 # Main de function
 de() {
   case "$1" in
