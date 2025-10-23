@@ -71,6 +71,61 @@ alias run="npm start"
 
 ---
 
+## 🔒 보안: 명시적 허가 시스템
+
+**v0.9.0의 새 기능**: Direnv Light는 이제 신뢰할 수 없는 코드의 자동 실행을 방지하는 **대화형 허가 시스템**을 포함합니다.
+
+### 작동 방식
+
+`.envrc` 또는 `.profile` 파일이 있는 디렉토리에 처음 진입하면 다음과 같은 화면이 나타납니다:
+
+```
+⚠️  Direnv configuration detected but not approved yet.
+📄 File: /Users/name/project/.envrc
+
+1) Allow and load (this directory only)
+2) Allow permanently (all subdirectories)
+3) View file content first
+4) Deny (don't ask again)
+5) Skip (ask again next time)
+Select an option (1-5): _
+```
+
+### 옵션 설명
+
+1. **Allow and load**: 이 디렉토리만 승인
+2. **Allow permanently**: 이 디렉토리와 모든 하위 디렉토리 승인
+3. **View file content**: 파일 내용을 확인한 후 메뉴로 돌아가기
+4. **Deny**: 영구 차단 (다시 묻지 않음)
+5. **Skip**: 이번엔 로드하지 않지만, 다음에 다시 물어봄
+
+### 승인 데이터베이스
+
+승인 내역은 다음 파일에 저장됩니다:
+- `~/.direnv/allowed_dirs` - 승인된 디렉토리
+- `~/.direnv/denied_dirs` - 영구 거부된 디렉토리
+
+이 파일들은 업데이트 시에도 보존됩니다.
+
+### 권장 사항
+
+- ⚠️ 승인하기 전에 **항상 파일 내용을 확인**하세요 (옵션 3)
+- ✅ "Allow permanently"는 자신이 직접 관리하는 신뢰할 수 있는 프로젝트에만 사용하세요
+- ❌ 출처가 불분명한 프로젝트를 무분별하게 승인하지 마세요
+- 🔍 Git 저장소를 클론한 후 디렉토리에 진입하기 전에 `.envrc` 파일을 확인하세요
+
+### 우회 방법 (고급)
+
+자동화 스크립트나 CI 환경에서:
+
+```bash
+export DIRENV_SKIP_PERMISSION_CHECK=1
+```
+
+**경고**: 신뢰할 수 있는 환경에서만 사용하세요!
+
+---
+
 ## 🧹 제거 방법
 
 direnv를 제거하려면 언인스톨 스크립트를 실행하세요:

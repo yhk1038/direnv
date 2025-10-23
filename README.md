@@ -73,6 +73,61 @@ When you enter the directory, the environment is loaded automatically, and it's 
 
 ---
 
+## 🔒 Security: Explicit Permission System
+
+**New in v0.9.0**: Direnv Light now includes an **interactive permission system** to protect against automatic execution of untrusted code.
+
+### How It Works
+
+When you enter a directory with a `.envrc` or `.profile` file for the first time, you'll see:
+
+```
+⚠️  Direnv configuration detected but not approved yet.
+📄 File: /Users/name/project/.envrc
+
+1) Allow and load (this directory only)
+2) Allow permanently (all subdirectories)
+3) View file content first
+4) Deny (don't ask again)
+5) Skip (ask again next time)
+Select an option (1-5): _
+```
+
+### Options Explained
+
+1. **Allow and load**: Approve this specific directory only
+2. **Allow permanently**: Approve this directory and all subdirectories
+3. **View file content**: Show the file content, then return to the menu
+4. **Deny**: Permanently block this directory (won't ask again)
+5. **Skip**: Don't load this time, but ask again next time
+
+### Approval Database
+
+Your approvals are stored in:
+- `~/.direnv/allowed_dirs` - Approved directories
+- `~/.direnv/denied_dirs` - Permanently denied directories
+
+These files are preserved during updates.
+
+### Best Practices
+
+- ⚠️ **Always review** file contents (option 3) before approving
+- ✅ Use "Allow permanently" only for your own trusted projects
+- ❌ Never blindly approve projects from unknown sources
+- 🔍 Check `.envrc` files in cloned repositories before entering
+
+### Bypassing (Advanced)
+
+For automated scripts or CI environments:
+
+```bash
+export DIRENV_SKIP_PERMISSION_CHECK=1
+```
+
+**Warning**: Only use this in trusted environments!
+
+---
+
 ## 🧹 Uninstall
 
 To uninstall direnv, simply run the uninstall script:
