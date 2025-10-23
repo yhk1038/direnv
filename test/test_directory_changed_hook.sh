@@ -16,9 +16,15 @@ SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 . "$SCRIPT_DIR/src/scripts/unload_current_dir_env.sh"
 . "$SCRIPT_DIR/src/scripts/directory_changed_hook.sh"
 
+# Save original cd for POSIX sh compatibility
+# In POSIX sh, we can't use 'builtin cd', so we use 'command cd' instead
+_original_cd() {
+  command cd "$@"
+}
+
 # Override cd to use our hook (simulating init.sh behavior)
 cd() {
-  builtin cd "$@" || return
+  _original_cd "$@" || return
   [ "$OLDPWD" != "$PWD" ] && _directory_changed_hook
 }
 
@@ -43,7 +49,7 @@ test_hook_triggers_on_change() {
   echo "export DIR1_VAR='dir1'" > "$TEST_DIR1/.envrc"
 
   # Go to dir1
-  builtin cd "$TEST_DIR1"
+  _original_cd "$TEST_DIR1"
   _load_current_dir_env
 
   # Verify dir1 env is loaded
@@ -76,7 +82,7 @@ test_hook_triggers_on_change() {
   fi
 
   # Cleanup
-  builtin cd
+  _original_cd
   rm -rf "$TEST_DIR1" "$TEST_DIR2"
   rm -f ~/.direnv/tmp/*
   unset DIR1_VAR DIR2_VAR
@@ -102,7 +108,7 @@ test_hook_not_trigger_same_dir() {
   echo "export TEST_VAR='original'" > "$TEST_DIR/.envrc"
 
   # Go to test dir
-  builtin cd "$TEST_DIR"
+  _original_cd "$TEST_DIR"
   _load_current_dir_env
 
   # Verify env is loaded
@@ -146,7 +152,7 @@ test_hook_not_trigger_same_dir() {
   fi
 
   # Cleanup
-  builtin cd
+  _original_cd
   rm -rf "$TEST_DIR"
   rm -f ~/.direnv/tmp/*
   unset TEST_VAR
@@ -174,7 +180,7 @@ test_unload_load_sequence() {
   echo "export SHARED_VAR='dir2_value'" > "$TEST_DIR2/.envrc"
 
   # Go to dir1
-  builtin cd "$TEST_DIR1"
+  _original_cd "$TEST_DIR1"
   _load_current_dir_env
 
   if [ "$SHARED_VAR" = "dir1_value" ]; then
@@ -198,7 +204,7 @@ test_unload_load_sequence() {
   fi
 
   # Cleanup
-  builtin cd
+  _original_cd
   rm -rf "$TEST_DIR1" "$TEST_DIR2"
   rm -f ~/.direnv/tmp/*
   unset SHARED_VAR
@@ -228,7 +234,7 @@ test_consecutive_changes() {
   echo "export DIR_VAR='C'" > "$TEST_DIR_C/.envrc"
 
   # A
-  builtin cd "$TEST_DIR_A"
+  _original_cd "$TEST_DIR_A"
   _load_current_dir_env
 
   if [ "$DIR_VAR" = "A" ]; then
@@ -259,7 +265,7 @@ test_consecutive_changes() {
   fi
 
   # Cleanup
-  builtin cd
+  _original_cd
   rm -rf "$TEST_DIR_A" "$TEST_DIR_B" "$TEST_DIR_C"
   rm -f ~/.direnv/tmp/*
   unset DIR_VAR
@@ -287,7 +293,7 @@ test_return_to_previous() {
   echo "export DIR_VAR='B'" > "$TEST_DIR_B/.envrc"
 
   # A
-  builtin cd "$TEST_DIR_A"
+  _original_cd "$TEST_DIR_A"
   _load_current_dir_env
 
   if [ "$DIR_VAR" = "A" ]; then
@@ -318,7 +324,7 @@ test_return_to_previous() {
   fi
 
   # Cleanup
-  builtin cd
+  _original_cd
   rm -rf "$TEST_DIR_A" "$TEST_DIR_B"
   rm -f ~/.direnv/tmp/*
   unset DIR_VAR
@@ -344,7 +350,7 @@ test_home_in_between() {
   echo "export TEST_VAR='test'" > "$TEST_DIR/.envrc"
 
   # Go to test dir
-  builtin cd "$TEST_DIR"
+  _original_cd "$TEST_DIR"
   _load_current_dir_env
 
   if [ "$TEST_VAR" = "test" ]; then
@@ -375,7 +381,7 @@ test_home_in_between() {
   fi
 
   # Cleanup
-  builtin cd
+  _original_cd
   rm -rf "$TEST_DIR"
   rm -f ~/.direnv/tmp/*
   unset TEST_VAR
@@ -402,7 +408,7 @@ test_no_envrc_directory() {
   echo "export TEST_VAR='test'" > "$TEST_DIR_WITH/.envrc"
 
   # Go to dir with .envrc
-  builtin cd "$TEST_DIR_WITH"
+  _original_cd "$TEST_DIR_WITH"
   _load_current_dir_env
 
   if [ "$TEST_VAR" = "test" ]; then
@@ -431,7 +437,7 @@ test_no_envrc_directory() {
   fi
 
   # Cleanup
-  builtin cd
+  _original_cd
   rm -rf "$TEST_DIR_WITH" "$TEST_DIR_WITHOUT"
   rm -f ~/.direnv/tmp/*
   unset TEST_VAR
