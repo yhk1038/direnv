@@ -17,6 +17,9 @@ SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 test_alias_removal() {
   printf "\n✅ TEST 1: Aliases defined in .envrc are removed on unload\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"
   mkdir -p "$TEST_DIR"
@@ -64,6 +67,9 @@ test_alias_removal() {
 test_env_var_removal() {
   printf "\n✅ TEST 2: Environment variables defined in .envrc are removed on unload\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"
   mkdir -p "$TEST_DIR"
@@ -110,6 +116,9 @@ test_env_var_removal() {
 ###############################################################################
 test_alias_restoration() {
   printf "\n✅ TEST 3: Original aliases are restored on unload\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"
@@ -163,6 +172,9 @@ test_alias_restoration() {
 test_env_var_restoration() {
   printf "\n✅ TEST 4: Original environment variables are restored on unload\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"
   mkdir -p "$TEST_DIR"
@@ -213,6 +225,9 @@ test_env_var_restoration() {
 ###############################################################################
 test_backup_cleanup() {
   printf "\n✅ TEST 5: Backup files are deleted after successful restore\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"
@@ -265,6 +280,9 @@ test_backup_cleanup() {
 test_current_env_cleanup() {
   printf "\n✅ TEST 6: Current env file is deleted on unload\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"
   mkdir -p "$TEST_DIR"
@@ -312,6 +330,9 @@ test_current_env_cleanup() {
 test_error_suppression() {
   printf "\n✅ TEST 7: Error output is suppressed in normal mode\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"
   mkdir -p "$TEST_DIR"
@@ -352,6 +373,9 @@ test_error_suppression() {
 test_no_env_loaded() {
   printf "\n✅ TEST 8: Unload does nothing gracefully when no env is loaded\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Clean backups
   rm -f ~/.direnv/tmp/*
 
@@ -377,6 +401,9 @@ test_no_env_loaded() {
 ###############################################################################
 test_multiple_items() {
   printf "\n✅ TEST 9: Multiple aliases and variables are all handled correctly\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"

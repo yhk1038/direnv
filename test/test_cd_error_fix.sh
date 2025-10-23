@@ -6,6 +6,9 @@
 echo "🧪 Testing directory change error suppression..."
 echo ""
 
+# Ensure ~/.direnv/tmp directory exists (required for tests)
+mkdir -p ~/.direnv/tmp
+
 # Get absolute path to project root
 PROJECT_ROOT=$(cd "$(dirname "$0")/.." && pwd)
 

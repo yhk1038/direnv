@@ -28,6 +28,9 @@ cd() {
 test_hook_triggers_on_change() {
   printf "\n✅ TEST 1: Hook triggers when directory changes\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Clean backups
   rm -f ~/.direnv/tmp/*
 
@@ -84,6 +87,9 @@ test_hook_triggers_on_change() {
 ###############################################################################
 test_hook_not_trigger_same_dir() {
   printf "\n✅ TEST 2: Hook does NOT trigger for same directory (cd .)\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Clean backups
   rm -f ~/.direnv/tmp/*
@@ -152,6 +158,9 @@ test_hook_not_trigger_same_dir() {
 test_unload_load_sequence() {
   printf "\n✅ TEST 3: Unload happens before Load (correct sequence)\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Clean backups
   rm -f ~/.direnv/tmp/*
 
@@ -200,6 +209,9 @@ test_unload_load_sequence() {
 ###############################################################################
 test_consecutive_changes() {
   printf "\n✅ TEST 4: Consecutive directory changes (A → B → C)\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Clean backups
   rm -f ~/.direnv/tmp/*
@@ -259,6 +271,9 @@ test_consecutive_changes() {
 test_return_to_previous() {
   printf "\n✅ TEST 5: Return to previous directory (A → B → A)\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Clean backups
   rm -f ~/.direnv/tmp/*
 
@@ -315,6 +330,9 @@ test_return_to_previous() {
 test_home_in_between() {
   printf "\n✅ TEST 6: Move from env dir → home → env dir again\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Clean backups
   rm -f ~/.direnv/tmp/*
 
@@ -368,6 +386,9 @@ test_home_in_between() {
 ###############################################################################
 test_no_envrc_directory() {
   printf "\n✅ TEST 7: cd to directory without .envrc (unload only)\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Clean backups
   rm -f ~/.direnv/tmp/*
