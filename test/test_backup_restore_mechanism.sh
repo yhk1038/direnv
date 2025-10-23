@@ -17,6 +17,9 @@ SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 test_backup_creation() {
   printf "\n✅ TEST 1: Backup files are created on first load\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Create test environment under HOME (required by direnv)
   TEST_DIR="$HOME/tmp/direnv-test-$$"
   mkdir -p "$TEST_DIR"
@@ -69,6 +72,9 @@ test_backup_creation() {
 ###############################################################################
 test_backup_not_recreated() {
   printf "\n✅ TEST 2: Backup files are NOT recreated on second load (CRITICAL)\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Create test environment
   TEST_DIR="$HOME/tmp/direnv-test-$$"
@@ -155,6 +161,9 @@ test_backup_not_recreated() {
 test_alias_format() {
   printf "\n✅ TEST 3: Alias format in backup file\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Clean any existing backups
   rm -f ~/.direnv/tmp/original_environment_aliases
   rm -f ~/.direnv/tmp/original_environment_variables
@@ -203,6 +212,9 @@ test_alias_format() {
 test_env_var_format() {
   printf "\n✅ TEST 4: Environment variable export format\n"
 
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
+
   # Clean any existing backups
   rm -f ~/.direnv/tmp/original_environment_aliases
   rm -f ~/.direnv/tmp/original_environment_variables
@@ -248,6 +260,9 @@ test_env_var_format() {
 ###############################################################################
 test_current_env_copy() {
   printf "\n✅ TEST 5: Current environment file is copied correctly\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Clean any existing backups
   rm -f ~/.direnv/tmp/original_environment_aliases
@@ -295,6 +310,9 @@ EOF
 ###############################################################################
 test_file_priority() {
   printf "\n✅ TEST 6: File priority when both .envrc and .profile exist\n"
+
+  # Ensure ~/.direnv/tmp directory exists (required for tests)
+  mkdir -p ~/.direnv/tmp
 
   # Clean any existing backups
   rm -f ~/.direnv/tmp/original_environment_aliases
