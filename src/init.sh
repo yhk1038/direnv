@@ -1,6 +1,7 @@
 #!/bin/sh
 
 . ~/.direnv/src/scripts/detect-language.sh
+. ~/.direnv/src/scripts/permission_manager.sh
 . ~/.direnv/src/scripts/load_current_dir_env.sh
 . ~/.direnv/src/scripts/unload_current_dir_env.sh
 . ~/.direnv/src/scripts/directory_changed_hook.sh

@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# Permission manager 소싱 (독립 실행 시 필요)
+if [ -f ~/.direnv/src/scripts/permission_manager.sh ]; then
+  . ~/.direnv/src/scripts/permission_manager.sh
+fi
+
 CURRENT_ENV_FILE=~/.direnv/tmp/current_env_file
 ORIGINAL_ALIASES_FILE=~/.direnv/tmp/original_environment_aliases
 ORIGINAL_VARIABLE_FILE=~/.direnv/tmp/original_environment_variables
@@ -31,6 +36,32 @@ _load_current_dir_env() {
   fi
 
   if [ "$loadable" = "true" ]; then
+    ###
+    ### 명시적 허가 확인 (DIRENV_SKIP_PERMISSION_CHECK=1로 비활성화 가능)
+    ###
+
+    if [ "$DIRENV_SKIP_PERMISSION_CHECK" != "1" ]; then
+      # 1. denied_dirs 확인
+      if _is_denied "$PWD"; then
+        # 거부된 디렉토리: 조용히 스킵
+        return 0
+      fi
+
+      # 2. allowed_dirs 확인
+      if ! _is_allowed "$PWD"; then
+        # 3. 대화형 프롬프트 (터미널인 경우만)
+        if [ -t 0 ]; then
+          if ! _prompt_allow_directory "$PWD" "$PWD/$ENV_FILE"; then
+            # 사용자가 거부 또는 스킵
+            return 0
+          fi
+        else
+          # 비대화형 모드: 조용히 스킵
+          return 0
+        fi
+      fi
+    fi
+
     ###
     ### 기존 환경설정을 백업
     ###
