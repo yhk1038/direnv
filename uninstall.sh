@@ -105,7 +105,7 @@ if [ -f "$RC_FILE" ]; then
   # direnv 관련 라인 제거
   # 임시 파일 사용하여 제거
   TMP_FILE="${RC_FILE}.tmp"
-  grep -v '.direnv/src/init.sh' "$RC_FILE" > "$TMP_FILE" 2>/dev/null
+  grep -v '.direnv/src/init.sh' "$RC_FILE" | grep -v 'alias de=' > "$TMP_FILE" 2>/dev/null
 
   if [ -f "$TMP_FILE" ]; then
     mv "$TMP_FILE" "$RC_FILE"

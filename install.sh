@@ -92,6 +92,13 @@ log "$(printf "${MSG_DONE_RCFILE:-Shell configuration file: %s}" "$RC_FILE")"
 
 # 4단계: 자동 초기화 설정
 step "${MSG_STEP_INIT:-Setting up auto-initialization...}"
+
+# 기존 alias de= 라인이 있으면 제거 (이전 버전과의 호환성)
+if grep -q 'alias de=' "$RC_FILE" 2>/dev/null; then
+  TMP_FILE="${RC_FILE}.tmp.$$"
+  grep -v 'alias de=' "$RC_FILE" > "$TMP_FILE" 2>/dev/null && mv "$TMP_FILE" "$RC_FILE"
+fi
+
 if ! grep '.direnv/src/init.sh' "$RC_FILE" >/dev/null 2>&1; then
   printf '\n# Direnv auto-initialization\n[ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh\n' >> "$RC_FILE"
   log "${MSG_DONE_INIT_ADDED:-Auto-initialization added}"
