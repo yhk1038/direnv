@@ -45,11 +45,26 @@ test_alias_removal() {
 
   # Unload
   . "$SCRIPT_DIR/src/scripts/unload_current_dir_env.sh"
+  if [ "$CI" = "true" ]; then
+    printf "  [DEBUG] About to call _unload_current_dir_env\n"
+    printf "  [DEBUG] CURRENT_ENV_FILE exists: "
+    [ -f ~/.direnv/tmp/current_env_file ] && echo "yes" || echo "no"
+    printf "  [DEBUG] CURRENT_ENV_FILE content:\n"
+    cat ~/.direnv/tmp/current_env_file 2>/dev/null | sed 's/^/    /'
+  fi
   _unload_current_dir_env
+  UNLOAD_EXIT=$?
+  if [ "$CI" = "true" ]; then
+    printf "  [DEBUG] _unload_current_dir_env exit code: %s\n" "$UNLOAD_EXIT"
+  fi
 
   # Verify alias is removed
   if alias test_project_alias 2>/dev/null | grep -q "test_project_alias"; then
     printf "  ❌ FAIL: Alias was not removed\n"
+    if [ "$CI" = "true" ]; then
+      printf "  [DEBUG] Alias still exists:\n"
+      alias test_project_alias 2>&1 | sed 's/^/    /'
+    fi
     FAILED=1
   else
     printf "  ✓ Alias was removed\n"
