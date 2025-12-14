@@ -1,10 +1,27 @@
 #!/bin/sh
 
-. ~/.direnv/src/scripts/detect-language.sh
-. ~/.direnv/src/scripts/load_current_dir_env.sh
-. ~/.direnv/src/scripts/unload_current_dir_env.sh
-. ~/.direnv/src/scripts/directory_changed_hook.sh
-. ~/.direnv/src/scripts/de_command.sh
+# Source scripts with error handling
+_direnv_source() {
+  if [ -f "$1" ]; then
+    . "$1"
+  else
+    echo "[direnv] ⚠️  Missing file: $1" >&2
+  fi
+}
+
+_direnv_source ~/.direnv/src/scripts/detect-language.sh
+_direnv_source ~/.direnv/src/scripts/load_current_dir_env.sh
+_direnv_source ~/.direnv/src/scripts/unload_current_dir_env.sh
+_direnv_source ~/.direnv/src/scripts/directory_changed_hook.sh
+_direnv_source ~/.direnv/src/scripts/de_command.sh
+
+# Fallback: define _directory_changed_hook if not defined (prevents "command not found")
+if ! type _directory_changed_hook >/dev/null 2>&1; then
+  _directory_changed_hook() {
+    _unload_current_dir_env 2>/dev/null
+    _load_current_dir_env 2>/dev/null
+  }
+fi
 
 # tmp 디렉토리가 없다면 생성합니다.
 if [ ! -d ~/.direnv/tmp ]; then
