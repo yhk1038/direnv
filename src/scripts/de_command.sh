@@ -40,6 +40,18 @@ de() {
         _de_init ".envrc"
       fi
       ;;
+    disable)
+      # Disable direnv
+      _de_disable
+      ;;
+    enable)
+      # Enable direnv
+      _de_enable
+      ;;
+    status)
+      # Show current status
+      _de_status
+      ;;
     --help|-h|help)
       # Show help message
       _de_show_help
@@ -228,6 +240,9 @@ _de_show_help() {
   printf "%s\n" "$MSG_DE_HELP_CMD_UPDATE_VER"
   printf "%s\n" "$MSG_DE_HELP_CMD_VERSIONS"
   printf "%s\n" "$MSG_DE_HELP_CMD_VERSION"
+  printf "%s\n" "$MSG_DE_HELP_CMD_DISABLE"
+  printf "%s\n" "$MSG_DE_HELP_CMD_ENABLE"
+  printf "%s\n" "$MSG_DE_HELP_CMD_STATUS"
   printf "%s\n" "$MSG_DE_HELP_CMD_UNINSTALL"
   printf "%s\n" "$MSG_DE_HELP_CMD_HELP"
   printf "\n%s\n" "$MSG_DE_HELP_OTHER_COMMANDS"
@@ -312,4 +327,66 @@ EOF
   fi
 
   return 0
+}
+
+# Disable direnv
+_de_disable() {
+  if [ "$DIRENV_DISABLED" = "1" ]; then
+    printf "%s\n" "$MSG_DE_ALREADY_DISABLED"
+    return 0
+  fi
+
+  # Unload current environment
+  _unload_current_dir_env
+
+  # Set disabled flag
+  DIRENV_DISABLED=1
+  export DIRENV_DISABLED
+
+  # Override cd to use builtin only (no hooks)
+  cd() {
+    builtin cd "$@"
+  }
+
+  printf "%s\n" "$MSG_DE_DISABLED"
+}
+
+# Enable direnv
+_de_enable() {
+  if [ "$DIRENV_DISABLED" != "1" ]; then
+    printf "%s\n" "$MSG_DE_ALREADY_ENABLED"
+    return 0
+  fi
+
+  # Clear disabled flag
+  unset DIRENV_DISABLED
+
+  # Restore cd with hooks
+  cd() {
+    builtin cd "$@" || return
+    [ "$OLDPWD" != "$PWD" ] && _directory_changed_hook
+  }
+
+  # Load environment for current directory
+  _load_current_dir_env
+
+  printf "%s\n" "$MSG_DE_ENABLED"
+}
+
+# Show current status
+_de_status() {
+  CURRENT_VERSION=$(_de_get_current_version)
+
+  if [ "$DIRENV_DISABLED" = "1" ]; then
+    printf "%s\n" "$MSG_DE_STATUS_DISABLED"
+  else
+    printf "%s\n" "$MSG_DE_STATUS_ENABLED"
+  fi
+
+  printf "Version: %s\n" "$CURRENT_VERSION"
+
+  # Show currently loaded environment file if any
+  if [ -f "$CURRENT_ENV_FILE" ]; then
+    printf "Loaded: %s\n" "$CURRENT_ENV_FILE"
+  fi
 }
