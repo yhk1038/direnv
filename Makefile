@@ -25,6 +25,12 @@ test:
 	@echo "Running: test_secure_install.sh"
 	@sh test/test_secure_install.sh
 	@echo ""
+	@echo "Running: test_disable_enable.sh"
+	@bash test/test_disable_enable.sh
+	@echo ""
+	@echo "Running: test_e2e_workflow.sh"
+	@bash test/test_e2e_workflow.sh
+	@echo ""
 	@echo "=========================================="
 	@echo "✅ All tests completed!"
 	@echo "=========================================="
