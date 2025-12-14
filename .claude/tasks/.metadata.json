@@ -1,0 +1,124 @@
+{
+  "progress": [
+    "Backlog",
+    "Ready",
+    "Doing",
+    "Done",
+    "Finished",
+    "Archived"
+  ],
+  "tasks": {
+    "1": {
+      "id": "1",
+      "title": "Add Uninstall Script",
+      "progress": "Finished",
+      "order": 1,
+      "created_at": "2025-10-25T10:58:16.635Z",
+      "updated_at": "2025-10-25T11:53:29.113Z"
+    },
+    "3": {
+      "id": "3",
+      "title": "Contributor Guidelines",
+      "progress": "Backlog",
+      "order": 2,
+      "created_at": "2025-10-25T10:58:23.261Z",
+      "updated_at": "2025-10-25T11:53:00.043Z"
+    },
+    "4": {
+      "id": "4",
+      "title": "Debugging Logging System",
+      "progress": "Backlog",
+      "order": 3,
+      "created_at": "2025-10-25T10:58:23.969Z",
+      "updated_at": "2025-10-25T10:58:23.969Z"
+    },
+    "5": {
+      "id": "5",
+      "title": "Fix: CD Error Messages on Directory Change",
+      "progress": "Backlog",
+      "order": 4,
+      "created_at": "2025-10-25T10:58:24.653Z",
+      "updated_at": "2025-10-25T10:58:24.653Z"
+    },
+    "6": {
+      "id": "6",
+      "title": "Performance Tests",
+      "progress": "Backlog",
+      "order": 5,
+      "created_at": "2025-10-25T10:58:25.422Z",
+      "updated_at": "2025-10-25T11:42:18.480Z"
+    },
+    "7": {
+      "id": "7",
+      "title": "Sensitive Information Handling",
+      "progress": "Backlog",
+      "order": 6,
+      "created_at": "2025-10-25T10:58:26.085Z",
+      "updated_at": "2025-10-25T10:58:26.085Z"
+    },
+    "8": {
+      "id": "8",
+      "title": "Version Management Strategy",
+      "progress": "Backlog",
+      "order": 7,
+      "created_at": "2025-10-25T10:58:26.804Z",
+      "updated_at": "2025-10-25T10:58:26.804Z"
+    },
+    "9": {
+      "id": "9",
+      "title": "Automated Release Process",
+      "progress": "Backlog",
+      "order": 8,
+      "created_at": "2025-10-25T10:59:21.278Z",
+      "updated_at": "2025-10-25T11:53:05.473Z"
+    },
+    "10": {
+      "id": "10",
+      "title": "Contributor Guidelines",
+      "progress": "Backlog",
+      "order": 9,
+      "created_at": "2025-10-25T10:59:22.274Z",
+      "updated_at": "2025-10-25T10:59:22.274Z"
+    },
+    "11": {
+      "id": "11",
+      "title": "Debugging Logging System",
+      "progress": "Backlog",
+      "order": 10,
+      "created_at": "2025-10-25T10:59:23.177Z",
+      "updated_at": "2025-10-25T10:59:23.177Z"
+    },
+    "12": {
+      "id": "12",
+      "title": "Fix: CD Error Messages on Directory Change",
+      "progress": "Backlog",
+      "order": 11,
+      "created_at": "2025-10-25T10:59:23.839Z",
+      "updated_at": "2025-10-25T10:59:23.839Z"
+    },
+    "13": {
+      "id": "13",
+      "title": "Performance Tests",
+      "progress": "Backlog",
+      "order": 12,
+      "created_at": "2025-10-25T10:59:24.634Z",
+      "updated_at": "2025-10-25T10:59:24.634Z"
+    },
+    "14": {
+      "id": "14",
+      "title": "Sensitive Information Handling",
+      "progress": "Backlog",
+      "order": 13,
+      "created_at": "2025-10-25T10:59:30.901Z",
+      "updated_at": "2025-10-25T10:59:30.901Z"
+    },
+    "15": {
+      "id": "15",
+      "title": "Version Management Strategy",
+      "progress": "Backlog",
+      "order": 14,
+      "created_at": "2025-10-25T10:59:32.376Z",
+      "updated_at": "2025-10-25T10:59:32.376Z"
+    }
+  }
+}
