@@ -364,7 +364,7 @@ _de_enable() {
   # Restore cd with hooks
   cd() {
     builtin cd "$@" || return
-    [ "$OLDPWD" != "$PWD" ] && _directory_changed_hook
+    [ "$OLDPWD" != "$PWD" ] && type _directory_changed_hook >/dev/null 2>&1 && _directory_changed_hook
   }
 
   # Load environment for current directory

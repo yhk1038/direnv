@@ -39,7 +39,7 @@ if [ "$DIRENV_DISABLED" != "1" ]; then
   # cd 명령어 후 디렉토리 변경 감지 시 후크 실행
   cd() {
     builtin cd "$@" || return
-    [ "$OLDPWD" != "$PWD" ] && _directory_changed_hook
+    [ "$OLDPWD" != "$PWD" ] && type _directory_changed_hook >/dev/null 2>&1 && _directory_changed_hook
   }
 else
   # 비활성화 상태에서는 기본 cd만 사용
