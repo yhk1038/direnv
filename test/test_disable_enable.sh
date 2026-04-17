@@ -30,7 +30,7 @@ echo ""
 # TEST 1: de status shows enabled by default
 echo "📝 TEST 1: de status shows enabled by default"
 STATUS_OUTPUT=$(de status 2>&1)
-if echo "$STATUS_OUTPUT" | grep -q "enabled"; then
+if echo "$STATUS_OUTPUT" | grep -qF "$MSG_DE_STATUS_ENABLED"; then
   echo "  ✓ Status shows enabled"
 else
   echo "  ✗ Status should show enabled"
@@ -69,7 +69,7 @@ fi
 echo ""
 echo "📝 TEST 3: de status shows disabled"
 STATUS_OUTPUT=$(de status 2>&1)
-if echo "$STATUS_OUTPUT" | grep -q "disabled"; then
+if echo "$STATUS_OUTPUT" | grep -qF "$MSG_DE_STATUS_DISABLED"; then
   echo "  ✓ Status shows disabled"
 else
   echo "  ✗ Status should show disabled"
@@ -113,7 +113,7 @@ echo ""
 echo "📝 TEST 6: de disable when already disabled shows warning"
 de disable >/dev/null 2>&1
 DISABLE_OUTPUT=$(de disable 2>&1)
-if echo "$DISABLE_OUTPUT" | grep -q "already"; then
+if echo "$DISABLE_OUTPUT" | grep -qF "$MSG_DE_ALREADY_DISABLED"; then
   echo "  ✓ Shows already disabled message"
 else
   echo "  ✗ Should show already disabled message"
@@ -125,7 +125,7 @@ echo ""
 echo "📝 TEST 7: de enable when already enabled shows warning"
 de enable >/dev/null 2>&1
 ENABLE_OUTPUT=$(de enable 2>&1)
-if echo "$ENABLE_OUTPUT" | grep -q "already"; then
+if echo "$ENABLE_OUTPUT" | grep -qF "$MSG_DE_ALREADY_ENABLED"; then
   echo "  ✓ Shows already enabled message"
 else
   echo "  ✗ Should show already enabled message"

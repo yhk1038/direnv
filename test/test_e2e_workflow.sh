@@ -225,7 +225,7 @@ _load_current_dir_env  # Ensure environment is loaded
 
 echo "  Step 1: de status when enabled with loaded env"
 STATUS=$(de status 2>&1)
-if echo "$STATUS" | grep -q "enabled"; then
+if echo "$STATUS" | grep -qF "$MSG_DE_STATUS_ENABLED"; then
   echo "    ✓ Shows enabled status"
 else
   echo "    ✗ Should show enabled"
@@ -235,7 +235,7 @@ fi
 echo "  Step 2: de disable && de status"
 de disable >/dev/null 2>&1
 STATUS=$(de status 2>&1)
-if echo "$STATUS" | grep -q "disabled"; then
+if echo "$STATUS" | grep -qF "$MSG_DE_STATUS_DISABLED"; then
   echo "    ✓ Shows disabled status"
 else
   echo "    ✗ Should show disabled"
