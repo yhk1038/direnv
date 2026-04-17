@@ -28,6 +28,9 @@ test:
 	@echo "Running: test_disable_enable.sh"
 	@bash test/test_disable_enable.sh
 	@echo ""
+	@echo "Running: test_unload_path_safety.sh"
+	@sh test/test_unload_path_safety.sh
+	@echo ""
 	@echo "Running: test_e2e_workflow.sh"
 	@bash test/test_e2e_workflow.sh
 	@echo ""

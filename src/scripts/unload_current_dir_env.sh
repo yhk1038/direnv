@@ -45,21 +45,21 @@ $EXPORTS
 EOF
     fi
 
-    # 백업해둔 alias 를 적용 후 성공시 백업파일 제거
-    if [ -f "$ORIGINAL_ALIASES_FILE" ]; then
-      if . "$ORIGINAL_ALIASES_FILE" 2>/dev/null; then
-        rm -f "$ORIGINAL_ALIASES_FILE"
-      else
-        echo "[direnv] ⚠️ Failed to restore aliases. File kept at: $ORIGINAL_ALIASES_FILE"
-      fi
-    fi
-
-    # 백업해둔 환경변수 적용 후 성공시 백업파일 제거
+    # 백업해둔 환경변수를 먼저 적용 (PATH 복원이 필요하므로 alias보다 선행)
     if [ -f "$ORIGINAL_VARIABLE_FILE" ]; then
       if . "$ORIGINAL_VARIABLE_FILE" 2>/dev/null; then
         rm -f "$ORIGINAL_VARIABLE_FILE"
       else
         echo "[direnv] ⚠️ Failed to restore environment variables. File kept at: $ORIGINAL_VARIABLE_FILE"
+      fi
+    fi
+
+    # 백업해둔 alias 적용 후 성공시 백업파일 제거
+    if [ -f "$ORIGINAL_ALIASES_FILE" ]; then
+      if . "$ORIGINAL_ALIASES_FILE" 2>/dev/null; then
+        rm -f "$ORIGINAL_ALIASES_FILE"
+      else
+        echo "[direnv] ⚠️ Failed to restore aliases. File kept at: $ORIGINAL_ALIASES_FILE"
       fi
     fi
 
