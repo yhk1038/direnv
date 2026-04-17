@@ -31,10 +31,9 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/instal
 > 설치 스크립트가 셸 설정 파일(`.bashrc`, `.zshrc` 등)에 다음을 추가합니다:
 > ```bash
 > [ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
-> alias de=". $HOME/.direnv/src/init.sh"
 > ```
 >
-> `de` 별칭을 사용하면 필요할 때 수동으로 direnv를 재로드할 수 있습니다 (설정 변경 후 등).
+> `de` 명령어는 초기화 후 사용할 수 있습니다. `de --help`로 사용 가능한 명령어를 확인하세요.
 
 ---
 
@@ -42,11 +41,50 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/instal
 
 설치 후 `~/.direnv/` 디렉토리에는 다음 파일들이 포함됩니다:
 
-- `init.sh`: 초기 환경 로더
-- `directory_changed_hook.sh`: 디렉토리 이동 후 환경 반응
-- `load_current_dir_env.sh`: `.envrc` 또는 `.profile` 로드
-- `unload_current_dir_env.sh`: 환경 정리
-- `install.sh`: 설치 스크립트 자체 포함
+```
+~/.direnv/
+├── src/
+│   ├── init.sh                          # 진입점 (초기화)
+│   ├── VERSION                          # 현재 버전
+│   ├── lang/
+│   │   ├── en.lang                      # 영어 메시지
+│   │   └── ko.lang                      # 한국어 메시지
+│   └── scripts/
+│       ├── detect-language.sh           # 로케일 기반 언어 감지
+│       ├── load_current_dir_env.sh      # .envrc 또는 .profile 로드
+│       ├── unload_current_dir_env.sh    # 환경 해제 및 복원
+│       ├── directory_changed_hook.sh    # 디렉토리 변경 훅
+│       └── de_command.sh               # de 명령어 (CLI 인터페이스)
+├── tmp/                                 # 런타임 상태 파일
+└── uninstall.sh                         # 제거 스크립트
+```
+
+---
+
+## 🛠 명령어
+
+`de` 명령어로 direnv를 관리할 수 있습니다:
+
+| 명령어 | 설명 |
+|--------|------|
+| `de` | direnv 재초기화 (설정 다시 로드) |
+| `de init [file]` | 현재 디렉토리에 `.envrc` (또는 `.profile`) 생성 |
+| `de update` | 최신 버전으로 업데이트 |
+| `de update <version>` | 특정 버전으로 업데이트 (예: `de update v0.8.0`) |
+| `de versions` | 사용 가능한 버전 목록 표시 |
+| `de --version` | 현재 버전 표시 |
+| `de disable` | direnv 비활성화 (디렉토리 훅 끄기) |
+| `de enable` | direnv 활성화 (디렉토리 훅 켜기) |
+| `de status` | 현재 direnv 상태 표시 |
+| `de uninstall` | direnv 제거 |
+| `de --help` | 도움말 표시 |
+
+**기타 별칭:**
+
+| 별칭 | 설명 |
+|------|------|
+| `dl` | 현재 로딩된 환경 파일 내용 출력 |
+| `df` | 임시 파일 정리 (`~/.direnv/tmp/*`) |
 
 ---
 
@@ -97,14 +135,30 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/yhk1038/direnv/main/uninst
 # 1. 디렉토리 제거
 rm -rf ~/.direnv
 
-# 2. 셸 설정 파일(.bashrc, .zshrc 등)을 편집하여 다음 라인들 제거:
+# 2. 셸 설정 파일(.bashrc, .zshrc 등)을 편집하여 다음 라인 제거:
 [ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
-alias de=". $HOME/.direnv/src/init.sh"
 ```
 
 ---
 
 ## 📋 릴리즈 노트
+
+### v0.8.x (2025-10-24)
+
+**새로운 기능**:
+- 설치 스크립트에서 `eval` 보안 위험 제거, 직접 파일 소싱 방식으로 변경
+- `de` CLI 명령어 추가 (서브커맨드: `init`, `update`, `versions`, `disable`, `enable`, `status`, `uninstall`)
+- `de init`으로 `.envrc`/`.profile` 생성 시 `.gitignore` 자동 연동
+- `de disable`/`de enable`으로 세션별 direnv 토글 기능 추가
+- 신규 설치 검증 테스트 추가
+
+**버그 수정**:
+- 서브셸에서 함수 존재 여부 확인으로 훅 에러 방지
+- 설치/제거 시 레거시 `alias de=` 제거 (함수로 대체)
+- zsh에서 함수 정의와 충돌하는 `unalias de` 문제 수정
+- 언로드 스크립트에서 빈 grep 결과 에러 수정
+- 모든 테스트 파일에서 `~/.direnv/tmp` 디렉토리 존재 보장
+- 디렉토리 훅 테스트에서 POSIX 호환 `cd` 사용
 
 ### v0.7.1 (2025-10-23)
 

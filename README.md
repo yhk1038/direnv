@@ -33,10 +33,9 @@ After installation, **direnv will be automatically activated** when you open a n
 > The installer adds the following to your shell configuration file (`.bashrc`, `.zshrc`, etc.):
 > ```bash
 > [ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
-> alias de=". $HOME/.direnv/src/init.sh"
 > ```
 >
-> The `de` alias allows you to manually reload direnv if needed (e.g., after configuration changes).
+> The `de` command is available after initialization. Run `de --help` to see all available commands.
 
 ---
 
@@ -44,11 +43,50 @@ After installation, **direnv will be automatically activated** when you open a n
 
 After installation, the following files will be located under `~/.direnv/`:
 
-- `init.sh`: Initializes the environment hook
-- `directory_changed_hook.sh`: Detects directory changes
-- `load_current_dir_env.sh`: Loads `.envrc` or `.profile` if present
-- `unload_current_dir_env.sh`: Clears previous environment variables
-- `install.sh`: The installer script itself
+```
+~/.direnv/
+├── src/
+│   ├── init.sh                          # Entry point (initialization)
+│   ├── VERSION                          # Current version
+│   ├── lang/
+│   │   ├── en.lang                      # English messages
+│   │   └── ko.lang                      # Korean messages
+│   └── scripts/
+│       ├── detect-language.sh           # Locale-based language detection
+│       ├── load_current_dir_env.sh      # Load .envrc or .profile
+│       ├── unload_current_dir_env.sh    # Unload and restore environment
+│       ├── directory_changed_hook.sh    # Directory change hook
+│       └── de_command.sh               # de command (CLI interface)
+├── tmp/                                 # Runtime state files
+└── uninstall.sh                         # Uninstall script
+```
+
+---
+
+## 🛠 Commands
+
+The `de` command provides a CLI interface for managing direnv:
+
+| Command | Description |
+|---------|-------------|
+| `de` | Reinitialize direnv (reload configuration) |
+| `de init [file]` | Create `.envrc` (or `.profile`) in current directory |
+| `de update` | Update to the latest version |
+| `de update <version>` | Update to a specific version (e.g., `de update v0.8.0`) |
+| `de versions` | Show available versions |
+| `de --version` | Show current version |
+| `de disable` | Disable direnv (turn off directory hooks) |
+| `de enable` | Enable direnv (turn on directory hooks) |
+| `de status` | Show current direnv status |
+| `de uninstall` | Uninstall direnv |
+| `de --help` | Show help message |
+
+**Other aliases:**
+
+| Alias | Description |
+|-------|-------------|
+| `dl` | Show contents of currently loaded env file |
+| `df` | Clean up temporary files (`~/.direnv/tmp/*`) |
 
 ---
 
@@ -99,14 +137,30 @@ The uninstall script will:
 # 1. Remove the directory
 rm -rf ~/.direnv
 
-# 2. Edit your shell rc file (.bashrc, .zshrc, etc.) and remove these lines:
+# 2. Edit your shell rc file (.bashrc, .zshrc, etc.) and remove this line:
 [ -f ~/.direnv/src/init.sh ] && source ~/.direnv/src/init.sh
-alias de=". $HOME/.direnv/src/init.sh"
 ```
 
 ---
 
 ## 📋 Release Notes
+
+### v0.8.x (2025-10-24)
+
+**New Features**:
+- Removed `eval` security risk from install scripts, using direct file sourcing instead
+- Added `de` CLI command with subcommands: `init`, `update`, `versions`, `disable`, `enable`, `status`, `uninstall`
+- Added `de init` to create `.envrc`/`.profile` with automatic `.gitignore` integration
+- Added `de disable`/`de enable` to toggle direnv on/off per session
+- Added fresh installation verification test
+
+**Bug Fixes**:
+- Fixed hook error in subshells by checking function existence before calling
+- Removed legacy `alias de=` from shell config during install/uninstall (replaced with function)
+- Fixed `unalias de` conflict with zsh function definition
+- Fixed empty grep results causing errors in unload script
+- Ensured `~/.direnv/tmp` directory exists in all test files
+- Used POSIX-compatible `cd` in directory hook tests
 
 ### v0.7.1 (2025-10-23)
 
